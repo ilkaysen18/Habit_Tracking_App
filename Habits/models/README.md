@@ -6,3 +6,4 @@ ___________________________________________________
 ###### Information:
 * _habit.py_ - This is for the main Object-Oriented Design (OOD) "Habit" Class
 * _completion_log.py_ - This is for the "CompletionLog" Class
+___________________________________________________
