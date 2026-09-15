@@ -36,6 +36,13 @@ def filter_by_periodicity(habits: list, periodicity: str) -> list:
 
 
 def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
+    """
+    ....
+    Args:
+        logs (list):
+    Returns:
+        int:
+    """
     
 
 
