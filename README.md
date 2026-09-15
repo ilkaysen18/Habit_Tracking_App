@@ -9,5 +9,5 @@
 
 ###### Information:
 * [db_manager.py](Habits/database/db_manager.py) - This is for the SQLite3 connections & 4-week test fixtures
-* _habit.py_ - This is for the main Object-Oriented Design (OOD) "Habit" Class
-* _completion_log.py_ - This is for the "CompletionLog" Class
+* [habit.py](Habits/models/habit.py) - This is for the main Object-Oriented Design (OOD) "Habit" Class
+* [completion_log.py](Habits/models/completion_log.py) - This is for the "CompletionLog" Class
