@@ -109,4 +109,4 @@ def seed_predefined_fixtures() -> None:
               elif periodicity == "yearly"
                   current_log_date += timedelta(days=365)
               
-      conn.commit() 
+      conn.commit()
