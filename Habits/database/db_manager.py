@@ -101,12 +101,12 @@ def seed_predefined_fixtures() -> None:
                   current_log_date += timedelta(weeks=1)
               
               elif periodicity == "biweekly":
-                  current_log_date += timedelta(days=3)        # Standardized biweekly to 3 days.
+                  current_log_date += timedelta(days=3)        # Standardizes biweekly as 3 days (considering biweekly is twice weekly).
               elif periodicity == "fortnightly":
-                  current_log_date += timedelta(days=14)
+                  current_log_date += timedelta(days=14)       # The standardized fortnightly time period of 14 days.
               elif periodicity == "monthly":
-                  current_log_date += timedelta(days=28)       # Standardized monthly as 28 days.
+                  current_log_date += timedelta(days=30)       # Standardizes monthly as 30 days.
               elif periodicity == "yearly":
-                  current_log_date += timedelta(days=365)
+                  current_log_date += timedelta(days=365)      # The standardized yearly time period of 365 days.
               
       conn.commit()
