@@ -59,17 +59,42 @@ def create_new_habit_flow() -> None:
     print("\n--- 🆕 CREATE A NEW HABIT ---")
     name = input("Enter a clear name/specification for the task: ").strip()
     if not name:
-        print("❌ Invalid: Task name cannot be empty.")
+        print("❌ Invalid: Habit name cannot be empty.")
         return
     print("Choose Time Frame:")
-    print("daily")
-    print("weekly")
-    print("biweekly")
-    print("fortnightly")
-    print("monthly")
-    print("yearly")
+    print("1. daily")
+    print("2. weekly")
+    print("3. biweekly")
+    print("4. fortnightly")
+    print("5. monthly")
+    print("6. yearly")
     p_choice = input("Select choice code (1-6): ").strip()
     
+    # Structural Block that converts Menu tokens to numbers for the Database:
+    period_specifications = {
+        "1": "daily",
+        "2": "weekly",
+        "3": "biweekly",
+        "4": "fortnightly",
+        "5": "monthly",
+        "6": "yearly"
+    }
+    
+    periodicity = period_specifications.get(p_choice)
+    
+    if not periodicity:
+        print("❌ Invalid input.")
+        return
+
+
+
+
+
+
+
+
+
+
 
 
 
