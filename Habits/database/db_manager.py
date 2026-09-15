@@ -65,7 +65,7 @@ def seed_predefined_fixtures() -> None:
       predefined_habits = [
           ("Drink 2L water", "daily"),
           ("Go to the gym", "weekly"),
-          ("Go out with friends", "fortnightly"),
+          ("Go out with friends", "biweekly"),
           ("Get a haircut", "monthly"),
           ("Go on vacation", "yearly")
         ]
