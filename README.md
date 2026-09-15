@@ -13,3 +13,4 @@
 * [completion_log.py](Habits/models/completion_log.py) - This is for the "CompletionLog" Class
 * [analytics.py](Habits/modules/analytics.py) - This is for the "AnalyticsModule" Class
 * [main.py](Habits/main.py) - This is for the "HabitTrackerCLI" Class
+* [User Setup & Operation Manual](Habits/README.md) - This is for the Installation and Run Instructions
