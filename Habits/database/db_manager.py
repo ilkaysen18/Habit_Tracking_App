@@ -64,10 +64,10 @@ def seed_predefined_fixtures() -> None:
       # 1. Defines the 5 Data Records:
       predefined_habits = [
           ("Drink 2L water", "daily"),
-          ("Go to the gym", "weekly"),
-          ("Go out with friends", "biweekly"),
-          ("Get a haircut", "monthly"),
-          ("Go on vacation", "yearly")
+          ("Go to the gym", "daily"),
+          ("Read 10 pages", "daily"),
+          ("Wash the car", "weekly"),
+          ("Submit weekly timesheet", "weekly")
         ]
 
      for name, periodicity in predefined_habits:
