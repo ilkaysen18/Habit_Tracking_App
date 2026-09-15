@@ -56,7 +56,14 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     sorted_dates = sorted(list(set([dt.date() for dt in logs])))
 
     # Defines the maximum gap Delta Time bounds based on the periodicity:
-     max_gap = timedelta(days=1) if periodicity.lower() == "daily" else timedelta(weeks=1)
+    if periodicity.lower() == "daily":
+        max_gap = timedelta(days=1)
+    elif periodicity.lower() == "biweekly":
+        max_gap = timedelta(days=3)
+    elif periodicity.lower() == "weekly":
+        max_gap = timedelta(weeks=1)
+    else:
+        max_gap = timedelta(days=14)
 
     # 2. Recursive connection (Loops) to other Constraints:
     def accumulate_streaks(dates_list, current_streak, max_streak):
