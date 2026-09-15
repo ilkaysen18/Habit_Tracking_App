@@ -9,7 +9,12 @@ This Library utilizes functions for habits and logs, by handling the following:
 """
 
 
+
 from datetime import datetime, timedelta
+
+
+
+""" FUNCTIONS LISTED BELOW: """
 
 
 def list_all_habits(habits: list) -> list:
@@ -37,14 +42,68 @@ def filter_by_periodicity(habits: list, periodicity: str) -> list:
 
 def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     """
-    ....
+    Computes the longest consecutive sequence for habit/task completion.
     Args:
-        logs (list):
+        logs (list): Lists datetime for successful completion logs.
+        periodicity (str): Frequency Constraint.
     Returns:
-        int:
+        int: The highest calculated number of uninterrupted habit/task completions.
     """
+    if not logs:
+        return 0
+
+    # 1. Clean Data Pipeline - Extracts specific sorted dates:
+    sorted_dates = sorted(list(set([dt.date() for dt in logs])))
+
+    # Defines the maximum gap Delta Time bounds based on the periodicity:
+     max_gap = timedelta(days=1) if periodicity.lower() == "daily" else timedelta(weeks=1)
+
+    # 2. Recursive connection (Loops) to other Constraints:
+    def accumulate_streaks(dates_list, current_streak, max_streak):
+        if len(dates_list) <= 1:
+            return max(max_streak, current_streak)
+        
+        # Measures chronological distance between neighboring habit/task completions:
+        gap = dates_list[1] - dates_list[0]
+
+        if gap <= max_gap:
+            # If the habit/task completion "streak" is held:
+            return accumulate_streaks(dates_list[1:], new_current, max(max_streak, new_current))
+        elif gap > max_gap:
+            #If the habit/task completion "streak" is broken:
+            return accumulate_streaks(dates_list[1:], 1, max_streak)
     
+    # Returns the defined function:
+    return accumulate_streaks(sorted_dates, 1, 1)
 
 
+def get_longest_streak_one(habit_id: int, all_logs: list, periodicity: str) -> int:
+    """
+    Computes the maximum historic completion streak achieved by user, for a specific habit.
+    Args:
+       habit_id (int): FK - Relational Foreign Key that connects matching target habit fields.
+       all_logs (list): The unfiltered list of all completion logs.
+       periodicity (str): Frequency.
+    Returns:
+        int: The longest "streak" of habit/task completion for the specific habit.
+    """
+
+    # Functional Filter Pipeline: This extracts the relevant Child Logs that match the Parent ID strings:
+    target_timestamps = [log.completed_at for log in all_logs if log.habit_id == habit_id]
+    return calculate_streak_for_single_habit(target_timestamps, periodicity)
 
 
+def get_longest_streak_all(habits: list, all_logs: list) -> int:
+    """
+    Finds the longest "streak" from ALL habit completion logs.
+    Args:
+        habits (list): A full list of habits.
+        all_logs (list): All the completion logs.
+    Returns:
+        int: The highest numerical consecutive sequence for habit completion.
+    """
+    if not habits:
+        return 0
+
+    # This returns the full habit completion "streaks" - it lists and fetches the maximum value:
+    return max([get_longest_streak_one(h.habit_id, all_logs, h.periodicity) for h in habits])
