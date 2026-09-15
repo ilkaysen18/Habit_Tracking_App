@@ -99,5 +99,14 @@ def seed_predefined_fixtures() -> None:
                       VALUES (?, ?);
                   """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
                   current_log_date += timedelta(weeks=1)
-
+              
+              elif periodicity == "biweekly":
+                  current_log_date += timedelta(days=3)        # Standardized biweekly to 3 days.
+              elif periodicity == "fortnightly"
+                  current_log_date += timedelta(days=14)
+              elif periodicity == "monthly"
+                  current_log_date += timedelta(days=28)       # Standardized monthly as 28 days.
+              elif periodicity == "yearly"
+                  current_log_date += timedelta(days=365)
+              
       conn.commit() 
