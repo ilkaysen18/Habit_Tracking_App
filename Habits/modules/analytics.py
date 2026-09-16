@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 
 
 
-""" FUNCTIONS LISTED BELOW: """
+"""FUNCTIONS LISTED BELOW:"""
 
 
 def list_all_habits(habits: list) -> list:
