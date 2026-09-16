@@ -19,10 +19,10 @@
 #### Example:
 
 
-2. <img width="732" height="22" alt="image" src="https://github.com/user-attachments/assets/de8409c4-c6dd-4732-b794-82236490891c" />
+2. <img width="382" height="12" alt="image" src="https://github.com/user-attachments/assets/de8409c4-c6dd-4732-b794-82236490891c" />
 
 
-3. <img width="77" height="22" alt="image" src="https://github.com/user-attachments/assets/cea828fb-2a3e-4c9e-be2e-58feb75b0ea5" />
+3. <img width="88.5" height="12" alt="image" src="https://github.com/user-attachments/assets/cea828fb-2a3e-4c9e-be2e-58feb75b0ea5" />
 
 
 ------------------------------------------------------------------------
