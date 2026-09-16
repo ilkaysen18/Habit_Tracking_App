@@ -83,9 +83,16 @@ def seed_predefined_fixtures() -> None:
         while current_log_date <= now:
             if periodicity == "daily":
                 # "Drink 2L water" includes a few gaps for Testing "streak" breaks/resets:
-                if name == "Go to the gym" and current_log_date.day % 7 in
-                    current_log_date += timedelta(days=1)
-                    continue
+                if name == "Go to the gym":
+                    day_offset = (current_log_date - start_date).days
+
+                    # Similar to Test Fixture:
+                    # - insert for offsets (days broken) 0,1,2
+                    # - skip offsets 3,4
+                    # - insert for offsets 5,6
+                    if day_offset in (3, 4):
+                        current_log_date += timedelta(days=1)
+                        continue
                     
                 cursor.execute("""
                     INSERT INTO completion_logs (habit_id, completed_at)
