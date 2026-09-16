@@ -102,9 +102,9 @@ try:
 	selection = int(input("\nSelect habit index row to create: ")) - 1
 	if selection < 0 or selection >= len(habits):
 		raise IndexError
-	
-    target_habit = habits[selection]
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+	target_habit = habits[selection]
+	now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	target_periodicity = period_specifications[selection]
 
 	with get_connection() as conn:
@@ -116,9 +116,9 @@ try:
 		conn.commit() 
 
 		print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
-	
+
 except (ValueError, IndexError):
-    print("❌ Invalid input.")
+	print("❌ Invalid input.")
 
 
 def check_off_habit_flow(habits: list) -> None:
