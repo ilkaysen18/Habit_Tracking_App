@@ -4,7 +4,7 @@
 
 <img width="1106" height="305" alt="image" src="https://github.com/user-attachments/assets/cda7f803-c1f2-4be3-88b5-1e15b1218b43" />
 
-1 Open Windows PowerShell (or a Command Prompt or Terminal)
+1. Open Windows PowerShell (or a Command Prompt or Terminal)
 
 2. Type the following: cd
    * Add a space
