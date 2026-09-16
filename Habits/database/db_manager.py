@@ -83,7 +83,7 @@ def seed_predefined_fixtures() -> None:
         while current_log_date <= now:
             if periodicity == "daily":
                 # "Drink 2L water" includes a few gaps for Testing "streak" breaks/resets:
-                if name == "Go to the gym" and current_log_date.day % 7 in:
+                if name == "Go to the gym" and current_log_date.day % 7 in
                     current_log_date += timedelta(days=1)
                     continue
                     
