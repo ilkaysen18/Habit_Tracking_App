@@ -101,7 +101,7 @@ for idx, h in enumerate(habits):
 try:
 	selection = int(input("\nSelect habit index row to create: ")) - 1
 	if selection < 0 or selection >= len(habits):
-        raise IndexError
+	raise IndexError
 	
     target_habit = habits[selection]
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
