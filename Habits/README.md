@@ -1,15 +1,19 @@
 ------------------------------------------------------------------------
 ###### Installation and Run Instructions: User Setup & Operation Manual
+------------------------------------------------------------------------
 
-1. Open Windows PowerShell (or a Command Prompt or Terminal)
+<img width="1106" height="305" alt="image" src="https://github.com/user-attachments/assets/cda7f803-c1f2-4be3-88b5-1e15b1218b43" />
 
-3. Type cd
-4. Add a space
-5. Then type or drag and drop your downloaded file to the Shell (make sure to extract the whole file from the zip folder first)
-   - e.g. Type: "C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"
-   - e.g. "C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"
-6. Hit Enter
+1 Open Windows PowerShell (or a Command Prompt or Terminal)
 
-7. Next, type the following: python main.py
-8. Hit Enter
+2. Type the following: cd
+   * Add a space
+   * Then type or drag and drop your downloaded file to the Shell (make sure to extract the whole file from the zip folder first)
+     - e.g. Type: "C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"
+     - e.g. "C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"
+   * Hit Enter
+
+3. Next, type the following: python main.py
+   * Hit Enter
+
 ------------------------------------------------------------------------
