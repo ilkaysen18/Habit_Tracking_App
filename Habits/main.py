@@ -1,5 +1,5 @@
 """
-"HABIT TRACKER CLI" CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:
+HABIT TRACKER CLI CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:
 
 This Module holds the Menu loop and validates user input flows.
 It connects the Database to the Analytics.
@@ -34,7 +34,10 @@ def fetch_active_environment():
         cursor = conn.cursor()
 
         # 1. Rehydrates (restores from memory) the Object-Oriented Design (OOD) "Habit" Objects:
-        cursor.execute("SELECT habit_id, habit_name, periodicity, created_at, created_at FROM habits;")
+        cursor.execute("""
+            SELECT habit_id, habit_name, periodicity, created_at, edited_at
+            FROM habits;
+        """)
         for row in cursor.fetchall():
             habits_cache.append(Habit(
                 habit_id=row[0],
@@ -186,7 +189,7 @@ def run_analytics_dashboard(habits: list, logs: list) -> None:
             break
 
 
-def main()
+def main():
     """This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
     # Ensures Database structures and Test Fixtures are verified when launching the application:
     initialize_tables()
