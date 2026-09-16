@@ -55,58 +55,58 @@ def seed_predefined_fixtures() -> None:
 
     # Prevents duplication:
     cursor.execute("SELECT COUNT(*) FROM habits;")
-      if cursor.fetchone()[0] > 0:
-          return
+    if cursor.fetchone()[0] > 0:
+        return
       
-      now = datetime.now()
-      start_date = now - timedelta(weeks=4)
+    now = datetime.now()
+    start_date = now - timedelta(weeks=4)
 
-      # 1. Defines the 5 Data Records:
-      predefined_habits = [
-          ("Drink 2L water", "daily"),
-          ("Go to the gym", "daily"),
-          ("Read 10 pages", "daily"),
-          ("Wash the car", "weekly"),
-          ("Submit weekly timesheet", "weekly")
-        ]
+    # 1. Defines the 5 Data Records:
+    predefined_habits = [
+        ("Drink 2L water", "daily"),
+        ("Go to the gym", "daily"),
+        ("Read 10 pages", "daily"),
+        ("Wash the car", "weekly"),
+        ("Submit weekly timesheet", "weekly")
+    ]
 
-     for name, periodicity in predefined_habits:
-          cursor.execute("""
-              INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
-              VALUES (?, ?, ?, ?);
-          """, (name, periodicity, start_date.strftime("%Y-%m-%d %H:%M:%S"), start_date.strftime("%Y-%m-%d %H:%M:%S")))
+    for name, periodicity in predefined_habits:
+        cursor.execute("""
+            INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
+            VALUES (?, ?, ?, ?);
+        """, (name, periodicity, start_date.strftime("%Y-%m-%d %H:%M:%S"), start_date.strftime("%Y-%m-%d %H:%M:%S")))
             
-          habit_id = cursor.lastrowid
+        habit_id = cursor.lastrowid
 
-          # 2. Automates timestamp Data Block loops of 4 Weeks.
-          current_log_date = start_date
-          while current_log_date <= now:
-              if periodicity == "daily":
-                  # "Drink 2L water" includes a few gaps for Testing "streak" breaks/resets:
-                  if name == "Go to the gym" and current_log_date.day % 7 in:
-                      current_log_date += timedelta(days=1)
-                      continue
+        # 2. Automates timestamp Data Block loops of 4 Weeks.
+        current_log_date = start_date
+        while current_log_date <= now:
+            if periodicity == "daily":
+                # "Drink 2L water" includes a few gaps for Testing "streak" breaks/resets:
+                if name == "Go to the gym" and current_log_date.day % 7 in:
+                    current_log_date += timedelta(days=1)
+                    continue
                     
-                  cursor.execute("""
-                      INSERT INTO completion_logs (habit_id, completed_at)
-                      VALUES (?, ?);
-                  """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
-                  current_log_date += timedelta(days=1)
+                cursor.execute("""
+                    INSERT INTO completion_logs (habit_id, completed_at)
+                    VALUES (?, ?);
+                """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
+                current_log_date += timedelta(days=1)
                 
-              elif periodicity == "weekly":
-                  cursor.execute("""
-                      INSERT INTO completion_logs (habit_id, completed_at)
-                      VALUES (?, ?);
-                  """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
-                  current_log_date += timedelta(weeks=1)
+            elif periodicity == "weekly":
+                cursor.execute("""
+                    INSERT INTO completion_logs (habit_id, completed_at)
+                    VALUES (?, ?);
+                """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
+                current_log_date += timedelta(weeks=1)
               
-              elif periodicity == "biweekly":
-                  current_log_date += timedelta(days=3)        # Standardizes biweekly as 3 days (considering biweekly is twice weekly).
-              elif periodicity == "fortnightly":
-                  current_log_date += timedelta(days=14)       # The standardized fortnightly time period of 14 days.
-              elif periodicity == "monthly":
-                  current_log_date += timedelta(days=30)       # Standardizes monthly as 30 days.
-              elif periodicity == "yearly":
-                  current_log_date += timedelta(days=365)      # The standardized yearly time period of 365 days.
+            elif periodicity == "biweekly":
+                current_log_date += timedelta(days=3)        # Standardizes biweekly as 3 days (considering biweekly is twice weekly).
+            elif periodicity == "fortnightly":
+                current_log_date += timedelta(days=14)       # The standardized fortnightly time period of 14 days.
+            elif periodicity == "monthly":
+                current_log_date += timedelta(days=30)       # Standardizes monthly as 30 days.
+            elif periodicity == "yearly":
+                current_log_date += timedelta(days=365)      # The standardized yearly time period of 365 days.
               
-      conn.commit()
+    conn.commit()
