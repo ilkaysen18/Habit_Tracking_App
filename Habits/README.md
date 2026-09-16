@@ -9,7 +9,7 @@
    * Then type or drag and drop the downloaded, main _Habits_ file to the Shell (make sure to extract the whole file from the zip folder first)
      - e.g. Type: _cd "C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"_
      - e.g. _cd "C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"_
-   * make sure to include quotation marks before and after the file name (_"file_name"_)
+   * make sure to include quotation marks before and after the file name (_"file-name"_)
    * Hit Enter
 
 3. Next, type the following: _python main.py_
