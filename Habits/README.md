@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
-###### Installation and Run Instructions: User Setup & Operation Manual
+### Installation and Run Instructions: User Setup & Operation Manual
 ------------------------------------------------------------------------
 
 1. Open Windows PowerShell (or a Command Prompt or Terminal)
