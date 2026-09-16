@@ -15,3 +15,7 @@
    * Hit Enter
 
 ------------------------------------------------------------------------
+
+#### Example:
+<img width="737" height="27" alt="image" src="https://github.com/user-attachments/assets/de8409c4-c6dd-4732-b794-82236490891c" />
+<img width="177" height="22" alt="image" src="https://github.com/user-attachments/assets/cea828fb-2a3e-4c9e-be2e-58feb75b0ea5" />
