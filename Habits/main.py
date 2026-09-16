@@ -57,11 +57,11 @@ def fetch_active_environment():
 
 
 
-""" The User Flow of the CLI is as follows: """
+"""The User Flow of the CLI is as follows:"""
 
 
 def create_new_habit_flow() -> None:
-    """ This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records. """
+    """This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records."""
     print("\n--- 🆕 CREATE A NEW HABIT ---")
     name = input("Enter a clear name/specification for the task: ").strip()
     if not name:
@@ -94,38 +94,41 @@ def create_new_habit_flow() -> None:
 
 
 def check_off_habit_flow(habits: list) -> None:
-    """ For the completion of habit/tasks. """
+    """For the completion of habit/tasks."""
     print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
-        if not habits:
-            print("❌ No current tracking filters found.")
-            return
 
-        # Lists custom habits with their 1-6 strings:
-        for idx, h in enumerate(habits):
-            print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
-        try:
-            selection = int(input("\nSelect habit index row to complete: ")) - 1
-            if selection < 0 or selection >= len(habits):
-                raise IndexError
+    if not habits:
+        print("❌ No current tracking filters found.")
+        return
 
-            target_habit = habits[selection]
-            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Lists custom habits with their 1-6 strings:
+    for idx, h in enumerate(habits):
+        print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
-            with get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute("""
-                    INSERT INTO completion_logs (habit_id, completed_at)
-                    VALUES (?, ?);
-                """, (target_habit.habit_id, now_str))
-                conn.commit()
-            print(f"🎯 Milestone saved! '{target_habit.habit_name}' checked off at {now_str}.")
-        
-        except (ValueError, IndexError):
-            print("❌ Interface Exception: Invalid option coordinates selected.")
+    try:
+        selection = int(input("\nSelect habit index row to complete: ")) - 1
+        if selection < 0 or selection >= len(habits):
+            raise IndexError
+
+        target_habit = habits[selection]
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO completion_logs (habit_id, completed_at)
+                VALUES (?, ?);
+            """, (target_habit.habit_id, now_str))
+            conn.commit()
+
+        print(f"🎯 Milestone saved! '{target_habit.habit_name}' checked off at {now_str}.")
+
+    except (ValueError, IndexError):
+        print("❌ Interface Exception: Invalid option coordinates selected.")
 
 
 def run_analytics_dashboard(habits: list, logs: list) -> None:
-    """ Functional Analytics Queries to analyze user progress. """
+    """Functional Analytics Queries to analyze user progress."""
     while True:
         print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
         print("1. List All Currently Tracked Habits")
@@ -184,7 +187,7 @@ def run_analytics_dashboard(habits: list, logs: list) -> None:
 
 
 def main()
-    """ This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop. """
+    """This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
     # Ensures Database structures and Test Fixtures are verified when launching the application:
     initialize_tables()
     seed_predefined_fixtures()
