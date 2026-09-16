@@ -49,7 +49,7 @@ def initialize_tables() -> None:
 
 
 def seed_predefined_fixtures() -> None:
-    """Automates the 5 Predefined Test Fixtures and generates 4-Week Test Data.""""
+    """Automates the 5 Predefined Test Fixtures and generates 4-Week Test Data."""
     with get_connection() as conn:
         cursor = conn.cursor()
 
