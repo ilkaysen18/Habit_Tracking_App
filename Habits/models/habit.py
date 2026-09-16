@@ -1,4 +1,7 @@
-"""      "HABIT" CLASS - MODEL PACKAGE:      This Module defines the Attributes for tracking user habits.      """
+"""
+"HABIT" CLASS - MODEL PACKAGE:
+This Module defines the Attributes for tracking user habits.
+"""
 
 
 from datetime import datetime, time
@@ -17,7 +20,7 @@ class Habit:
   """
 
 
-""" User Actions include the following: """
+"""User Actions include the following:"""
 
 def __init__(self, habit_id: int, habit_name: str, periodicity: str,
               created_at: datetime, edited_at: datetime, reminder_time: time = None):
@@ -30,7 +33,7 @@ def __init__(self, habit_id: int, habit_name: str, periodicity: str,
     self.reminder_time = reminder_time
 
 
-""" Constraint Rules below: """
+"""Constraint Rules below."""
 
 def edit_name(self, new_name: str) -> bool:
     """
@@ -62,12 +65,12 @@ def edit_periodicity(new_periodicity: str) -> bool:
     return False
 
 
-""" User Actions include the following: """
+"""User Actions include the following."""
 
 def delete(self) -> bool:
-    """ Tracks individual habit/task deletion instances. """
+    """Tracks individual habit/task deletion instances."""
     return True
 
 def complete(self) -> bool:
-    """ Tracks individual habit/task completion instances. """
+    """Tracks individual habit/task completion instances."""
     return True
