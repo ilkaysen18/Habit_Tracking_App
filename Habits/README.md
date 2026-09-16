@@ -4,14 +4,14 @@
 
 1. Open Windows PowerShell (or a Command Prompt or Terminal)
 
-2. Type the following: cd
+2. Type the following: _cd_
    * Add a space
    * Then type or drag and drop your downloaded file to the Shell (make sure to extract the whole file from the zip folder first)
-     - e.g. Type: "C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"
-     - e.g. "C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"
+     - e.g. Type: _"C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"_
+     - e.g. _"C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"_
    * Hit Enter
 
-3. Next, type the following: python main.py
+3. Next, type the following: _python main.py_
    * Hit Enter
 
 ------------------------------------------------------------------------
