@@ -4,8 +4,8 @@
 
 1. Open Windows PowerShell (or a Command Prompt or Terminal)
 
-2. Type the following: _cd "_
-   * Add a space
+2. Type the following: _cd_
+   * Add a space and quotation mark (")
    * Then type or drag and drop the downloaded, main _Habits_ file to the Shell (make sure to extract the whole file from the zip folder first)
      - e.g. Type: _cd "C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"_
      - e.g. _cd "C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"_
