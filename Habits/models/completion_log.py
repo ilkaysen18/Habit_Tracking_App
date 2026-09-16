@@ -19,14 +19,14 @@ class CompletionLog:
 
 
 def __init__(self, log_id: int, habit_id: int, completed_at: datetime, broken_at: datetime = None):
-    """ Initializes habit/task Attributes. """
+    """Initializes habit/task Attributes."""
     self.log_id = log_id
     self.habit_id = habit_id
     self.completed_at = completed_at
     self.broken_at = broken_at
 
 
-""" Constraint Rules below: """
+"""Constraint Rules below:"""
 
 def create_log(self, habit_id: int) -> None:
     """
