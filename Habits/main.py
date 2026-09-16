@@ -110,10 +110,14 @@ try:
 	with get_connection() as conn:
 		cursor = conn.cursor()
 		cursor.execute(
-			INSERT INTO completion_logs (user_id, habit_id, created_at, periodicity)
-			VALUES (?, ?, ?);
-				(user_name.user_id, target_habit.habit_id, now_str, p_choice.periodicity_id)
-		conn.commit() 
+			"""
+			INSERT INTO completion_logs
+			(user_id, habit_id, created_at, periodicity)
+			VALUES (%s, %s, %s, %s);
+			""",
+			(user_id, habit_id, now_str, p_choice_periodicity_id)
+		)
+		conn.commit()
 
 		print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
 
