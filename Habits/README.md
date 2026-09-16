@@ -6,7 +6,7 @@
 
 2. Type the following: _cd_
    * Add a space
-   * Then type or drag and drop your downloaded file to the Shell (make sure to extract the whole file from the zip folder first)
+   * Then type or drag and drop the downloaded, main _Habit_ file to the Shell (make sure to extract the whole file from the zip folder first)
      - e.g. Type: _"C:\Users\your-own-username\Downloads\Habit_Tracking_App-main\Habits"_
      - e.g. _"C:\Users\ilkay\Downloads\Habit_Tracking_App-main\Habits"_
    * Hit Enter
