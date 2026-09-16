@@ -95,7 +95,7 @@ def create_new_habit_flow() -> None:
 
 def check_off_habit_flow(habits: list) -> None:
     """ For the completion of habit/tasks. """
-        print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
+    print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
         if not habits:
             print("❌ No current tracking filters found.")
             return
