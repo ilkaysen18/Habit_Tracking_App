@@ -6,6 +6,7 @@ It connects the Database to the Analytics.
 """
 
 
+
 import sys
 from datetime import datetime
 from database.db_manager import initialize_tables, seed_predefined_fixtures, get_connection
@@ -17,6 +18,7 @@ from modules.analytics import (
     get_longest_streak_one,
     get_longest_streak_all
 )
+
 
 
 def fetch_active_environment():
@@ -54,6 +56,10 @@ def fetch_active_environment():
     return habits_cache, logs_cache
 
 
+
+""" The User Flow of the CLI is as follows: """
+
+
 def create_new_habit_flow() -> None:
     """ This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records. """
     print("\n--- 🆕 CREATE A NEW HABIT ---")
@@ -85,6 +91,106 @@ def create_new_habit_flow() -> None:
     if not periodicity:
         print("❌ Invalid input.")
         return
+
+
+def check_off_habit_flow(habits: list) -> None:
+    """ For the completion of habit/tasks. """
+        print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
+        if not habits:
+            print("❌ No current tracking filters found.")
+            return
+
+        # Lists custom habits with their 1-6 strings:
+        for idx, h in enumerate(habits):
+            print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+        try:
+            selection = int(input("\nSelect habit index row to complete: ")) - 1
+            if selection < 0 or selection >= len(habits):
+                raise IndexError
+
+            target_habit = habits[selection]
+            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            with get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO completion_logs (habit_id, completed_at)
+                    VALUES (?, ?);
+                """, (target_habit.habit_id, now_str))
+                conn.commit()
+            print(f"🎯 Milestone saved! '{target_habit.habit_name}' checked off at {now_str}.")
+        
+        except (ValueError, IndexError):
+            print("❌ Interface Exception: Invalid option coordinates selected.")
+
+
+def run_analytics_dashboard(habits: list, logs: list) -> None:
+    """ Functional Analytics Queries to analyze user progress. """
+    while True:
+        print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
+        print("1. List All Currently Tracked Habits")
+        print("2. Filter Habits by Periodicity Bounds")
+        print("3. View Longest Completion Run Streak Across All Habits")
+        print("4. View Longest Completion Run Streak for One Specific Habit")
+        print("5. Return to Application Main Menu")
+        
+        choice = input("\nSelect analytics filter (1-5): ").strip()
+        
+        if choice == "1":
+            all_h = list_all_habits(habits)
+            print("\n📋 MASTER TRACKING REGISTRY:")
+            for h in all_h:
+                print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
+                
+        elif choice == "2":
+            # Expands array to match periodicity bounds:
+            valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
+            
+            print("\nAvailable filters: " + ", ".join(valid_filters))
+            p = input("Enter frequency: ").strip().lower()
+            
+            if p in valid_filters:
+                filtered = filter_by_periodicity(habits, p)
+                print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
+                if not filtered:
+                    print("  No habits found matching this timeframe.")
+                for h in filtered:
+                    print(f" • {h.habit_name}")
+            else:
+                print("❌ Invalid filter bounds entered.")
+                
+        elif choice == "3":
+            top_run = get_longest_streak_all(habits, logs)
+            print(f"\n🏆 Absolute Longest System-Wide Streak: {top_run} consecutive periods!")
+            
+        elif choice == "4":
+            if not habits:
+                print("❌ No rows available to verify.")
+                continue
+            for idx, h in enumerate(habits):
+                print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+            try:
+                sel = int(input("\nSelect habit index code: ")) - 1
+                if sel < 0 or sel >= len(habits):
+                    raise IndexError
+                target = habits[sel]
+                streak = get_longest_streak_one(target.habit_id, logs, target.periodicity)
+                print(f"\n🎯 Max consecutive streak for '{target.habit_name}': {streak} periods.")
+            except (ValueError, IndexError):
+                print("❌ Selection out of operational bounds.")
+                
+        elif choice == "5":
+            break
+
+
+
+
+
+
+
+
+
+
 
 
 
