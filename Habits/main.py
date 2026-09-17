@@ -95,34 +95,34 @@ def create_new_habit_flow(habits: list) -> None:
     # approves correct input for periodicity, saves to completion log.
     # if invalid input, prints error script.
 
-for idx, h in enumerate(habits):
-	print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+	for idx, h in enumerate(habits):
+		print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
-try:
-	selection = int(input("\nSelect habit index row to create: ")) - 1
-	if selection < 0 or selection >= len(habits):
-		raise IndexError
+	try:
+		selection = int(input("\nSelect habit index row to create: ")) - 1
+		if selection < 0 or selection >= len(habits):
+			raise IndexError
 
-	target_habit = habits[selection]
-	now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-	target_periodicity = period_specifications[selection]
+		target_habit = habits[selection]
+		now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		target_periodicity = period_specifications[selection]
 
-	with get_connection() as conn:
-		cursor = conn.cursor()
-		cursor.execute(
-			"""
-			INSERT INTO completion_logs
-			(user_id, habit_id, created_at, periodicity)
-			VALUES (%s, %s, %s, %s);
-			""",
-			(user_id, habit_id, now_str, p_choice_periodicity_id)
-		)
-		conn.commit()
+		with get_connection() as conn:
+			cursor = conn.cursor()
+			cursor.execute(
+				"""
+				INSERT INTO completion_logs
+				(user_id, habit_id, created_at, periodicity)
+				VALUES (%s, %s, %s, %s);
+				""",
+				(user_id, habit_id, now_str, p_choice_periodicity_id)
+			)
+			conn.commit()
 
-		print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
+			print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
 
-except (ValueError, IndexError):
-	print("❌ Invalid input.")
+	except (ValueError, IndexError):
+		print("❌ Invalid input.")
 
 
 def check_off_habit_flow(habits: list) -> None:
