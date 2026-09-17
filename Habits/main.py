@@ -219,34 +219,34 @@ def run_analytics_dashboard(habits: list, logs: list) -> None:
 
 
 def main():
-"""This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
-# Ensures Database structures and Test Fixtures are verified when launching the application:
-initialize_tables()
-seed_predefined_fixtures()
+	"""This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
+	# Ensures Database structures and Test Fixtures are verified when launching the application:
+	initialize_tables()
+	seed_predefined_fixtures()
 
-while True:
-# Rehydrates (restores from memory) Object caches and maintains real-time sync:
-habits, logs = fetch_active_environment()
+	while True:
+		# Rehydrates (restores from memory) Object caches and maintains real-time sync:
+		habits, logs = fetch_active_environment()
 
-print("\n=== 📋 MAIN INTERACTIVE APP MENU ===")
-print("1. Create a New Custom Habit Track")
-print("2. Mark a Habit Task as Completed")
-print("3. Open Functional Analytics Dashboard")
-print("4. Terminate State Machine & Exit")
+		print("\n=== 📋 MAIN INTERACTIVE APP MENU ===")
+		print("1. Create a New Custom Habit Track")
+		print("2. Mark a Habit Task as Completed")
+		print("3. Open Functional Analytics Dashboard")
+		print("4. Terminate State Machine & Exit")
 
-choice = input("\nSelect option coordinate (1-4): ").strip()
+		choice = input("\nSelect option coordinate (1-4): ").strip()
 
-if choice == "1":
-create_new_habit_flow(habits)
-elif choice == "2":
-check_off_habit_flow(habits)
-elif choice == "3":
-run_analytics_dashboard(habits, logs)
-elif choice == "4":
-print("\nProgress securely saved to local storage file. Closing runtime loop. Goodbye!")
-sys.exit()
-else:
-print("❌ Input Error: Unrecognized instruction. Please choose options 1-4.")
+		if choice == "1":
+			create_new_habit_flow(habits)
+		elif choice == "2":
+			check_off_habit_flow(habits)
+		elif choice == "3":
+			run_analytics_dashboard(habits, logs)
+		elif choice == "4":
+			print("\nProgress securely saved to local storage file. Closing runtime loop. Goodbye!")
+			sys.exit()
+		else:
+			print("❌ Input Error: Unrecognized instruction. Please choose options 1-4.")
 
-if __name__ == "__main__":
-main()
+	if __name__ == "__main__":
+		main()
