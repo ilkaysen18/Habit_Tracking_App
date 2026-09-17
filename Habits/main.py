@@ -121,8 +121,8 @@ def create_new_habit_flow(habits: list) -> None:
 
 			print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
 
-		except (ValueError, IndexError):
-		print("❌ Invalid input.")
+		except(ValueError, IndexError):
+			print("❌ Invalid input.")
 
 
 def check_off_habit_flow(habits: list) -> None:
