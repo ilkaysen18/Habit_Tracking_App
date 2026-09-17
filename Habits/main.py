@@ -65,64 +65,64 @@ def fetch_active_environment():
 
 def create_new_habit_flow(habits: list) -> None:
 """This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records."""
-print("\n--- 🆕 CREATE A NEW HABIT ---")
-name = input("Enter a clear name/specification for the task: ").strip()
-if not name:
-print("❌ Invalid: Habit name cannot be empty.")
-return
-print("Choose Time Frame:")
-print("1. daily")
-print("2. weekly")
-print("3. biweekly")
-print("4. fortnightly")
-print("5. monthly")
-print("6. yearly")
-p_choice = input("Select choice code (1-6): ").strip()
+	print("\n--- 🆕 CREATE A NEW HABIT ---")
+	name = input("Enter a clear name/specification for the task: ").strip()
+	if not name:
+		print("❌ Invalid: Habit name cannot be empty.")
+		return
+	print("Choose Time Frame:")
+	print("1. daily")
+	print("2. weekly")
+	print("3. biweekly")
+	print("4. fortnightly")
+	print("5. monthly")
+	print("6. yearly")
+	p_choice = input("Select choice code (1-6): ").strip()
 
-# Structural Block that converts Menu tokens to numbers for the Database:
-period_specifications = {
-"1": "daily",
-"2": "weekly",
-"3": "biweekly",
-"4": "fortnightly",
-"5": "monthly",
-"6": "yearly"
-}
+	# Structural Block that converts Menu tokens to numbers for the Database:
+	period_specifications = {
+		"1": "daily",
+		"2": "weekly",
+		"3": "biweekly",
+		"4": "fortnightly",
+		"5": "monthly",
+		"6": "yearly"
+	}
 
-periodicity = period_specifications.get(p_choice)
+	periodicity = period_specifications.get(p_choice)
 
-# regarding habit creation for the code below.
-# approves correct input for periodicity, saves to completion log.
-# if invalid input, prints error script.
+	# regarding habit creation for the code below.
+	# approves correct input for periodicity, saves to completion log.
+	# if invalid input, prints error script.
 
-for idx, h in enumerate(habits):
-print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+	for idx, h in enumerate(habits):
+		print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
-try:
-selection = int(input("\nSelect habit index row to create: ")) - 1
-if selection < 0 or selection >= len(habits):
-raise IndexError
+	try:
+		selection = int(input("\nSelect habit index row to create: ")) - 1
+		if selection < 0 or selection >= len(habits):
+			raise IndexError
 
-target_habit = habits[selection]
-now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-target_periodicity = period_specifications[selection]
+		target_habit = habits[selection]
+		now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		target_periodicity = period_specifications[selection]
 
-with get_connection() as conn:
-cursor = conn.cursor()
-cursor.execute(
-"""
-INSERT INTO completion_logs
-(user_id, habit_id, created_at, periodicity)
-VALUES (%s, %s, %s, %s);
-""",
-(user_id, habit_id, now_str, p_choice_periodicity_id)
-)
-conn.commit()
+		with get_connection() as conn:
+			cursor = conn.cursor()
+			cursor.execute(
+				"""
+				INSERT INTO completion_logs
+				(user_id, habit_id, created_at, periodicity)
+				VALUES (%s, %s, %s, %s);
+				""",
+				(user_id, habit_id, now_str, p_choice_periodicity_id)
+			)
+			conn.commit()
 
-print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
+			print("✅ New habit and time frame saved! '{target_habit.habit_name}' set for {target_periodicity}.")
 
-except (ValueError, IndexError):
-print("❌ Invalid input.")
+		except (ValueError, IndexError):
+		print("❌ Invalid input.")
 
 
 def check_off_habit_flow(habits: list) -> None:
