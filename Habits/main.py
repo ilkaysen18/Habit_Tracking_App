@@ -63,7 +63,7 @@ def fetch_active_environment():
 """The User Flow of the CLI is as follows:"""
 
 
-def create_new_habit_flow() -> None:
+def create_new_habit_flow(habits: list) -> None:
     """This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records."""
     print("\n--- 🆕 CREATE A NEW HABIT ---")
     name = input("Enter a clear name/specification for the task: ").strip()
@@ -235,9 +235,9 @@ def main():
         print("4. Terminate State Machine & Exit")
 
         choice = input("\nSelect option coordinate (1-4): ").strip()
-        
-        if choice == "1":
-            create_new_habit_flow()
+
+		if choice == "1":
+			create_new_habit_flow(habits)
         elif choice == "2":
             check_off_habit_flow(habits)
         elif choice == "3":
