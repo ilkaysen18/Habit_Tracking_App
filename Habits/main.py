@@ -238,7 +238,7 @@ def main():
 
 		if choice == "1":
 			create_new_habit_flow(habits)
-        elif choice == "2":
+		elif choice == "2":
             check_off_habit_flow(habits)
         elif choice == "3":
             run_analytics_dashboard(habits, logs)
