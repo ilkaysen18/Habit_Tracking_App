@@ -248,5 +248,5 @@ def main():
 		else:
 			print("❌ Input Error: Unrecognized instruction. Please choose options 1-4.")
 
-	if __name__ == "__main__":
-		main()
+if __name__ == "__main__":
+	main()
