@@ -64,7 +64,7 @@ def fetch_active_environment():
 
 
 def create_new_habit_flow(habits: list) -> None:
-"""This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records."""
+	"""This is for handling the terminal prompt sequences - for the creation and saving of new habit/task records."""
 	print("\n--- 🆕 CREATE A NEW HABIT ---")
 	name = input("Enter a clear name/specification for the task: ").strip()
 	if not name:
