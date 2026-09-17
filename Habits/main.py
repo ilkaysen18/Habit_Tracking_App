@@ -236,17 +236,17 @@ def main():
 
         choice = input("\nSelect option coordinate (1-4): ").strip()
 
-	if choice == "1":
-		create_new_habit_flow(habits)
-	elif choice == "2":
-        check_off_habit_flow(habits)
-    elif choice == "3":
-        run_analytics_dashboard(habits, logs)
-    elif choice == "4":
-        print("\nProgress securely saved to local storage file. Closing runtime loop. Goodbye!")
-        sys.exit()
-    else:
-        print("❌ Input Error: Unrecognized instruction. Please choose options 1-4.")
+			if choice == "1":
+				create_new_habit_flow(habits)
+			elif choice == "2":
+        		check_off_habit_flow(habits)
+    		elif choice == "3":
+        		run_analytics_dashboard(habits, logs)
+    		elif choice == "4":
+        		print("\nProgress securely saved to local storage file. Closing runtime loop. Goodbye!")
+        		sys.exit()
+    		else:
+        		print("❌ Input Error: Unrecognized instruction. Please choose options 1-4.")
 
 if __name__ == "__main__":
     main()
