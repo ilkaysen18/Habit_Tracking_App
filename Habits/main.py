@@ -148,8 +148,8 @@ def check_off_habit_flow(habits: list) -> None:
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO completion_logs (habit_id, completed_at)
-                VALUES (?, ?);
+                INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
+                VALUES (?, ?, ?, ?);
             """, (target_habit.habit_id, now_str))
             conn.commit()
 
