@@ -100,17 +100,27 @@ def get_longest_streak_one(habit_id: int, all_logs: list, periodicity: str) -> i
     return calculate_streak_for_single_habit(target_timestamps, periodicity)
 
 
-def get_longest_streak_all(habits: list, all_logs: list) -> int:
-    """
-    Finds the longest "streak" from ALL habit completion logs.
-    Args:
-        habits (list): A full list of habits.
-        all_logs (list): All the completion logs.
+def get_longest_streak_all(habits: list, all_logs: list):
+    """Finds the longest 'streak' from ALL habit completion logs.
+
     Returns:
-        int: The highest numerical consecutive sequence for habit completion.
+        tuple: (best_habit, best_streak)
     """
     if not habits:
-        return 0
+        return None, 0
 
-    # This returns the full habit completion "streaks" - it lists and fetches the maximum value:
-    return max([get_longest_streak_one(h.habit_id, all_logs, h.periodicity) for h in habits])
+    best_habit = None
+    best_streak = 0
+
+    for h in habits:
+        s = get_longest_streak_one(h.habit_id, all_logs, h.periodicity)
+
+        # if your get_longest_streak_one returns None sometimes, guard it:
+        if s is None:
+            continue
+
+        if s > best_streak:
+            best_streak = s
+            best_habit = h
+
+    return best_habit, best_streak
