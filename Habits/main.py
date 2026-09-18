@@ -170,15 +170,15 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
         return False
 
     with get_connection() as conn:
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT 1
-        FROM completion_logs
-        WHERE habit_id = ?
-        AND completed_at >= ?
-        AND completed_at < ?
-        LIMIT 1;
-    """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT 1
+            FROM completion_logs
+            WHERE habit_id = ?
+            AND completed_at >= ?
+            AND completed_at < ?
+            LIMIT 1;
+        """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
 
     return cursor.fetchone() is not None
 
