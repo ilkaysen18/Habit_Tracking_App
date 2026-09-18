@@ -300,8 +300,15 @@ def run_analytics_dashboard(habits: list, logs: list):
                     print(f" • {h.habit_name}")
 
         elif choice == "3":
-            top_run = get_longest_streak_all(habits, logs)
-            print(f"\n🏆 Absolute Longest System-Wide Streak: {top_run} consecutive periods!")
+            top_habit, top_run = get_longest_streak_all(habits, logs)
+
+            if not top_habit:
+                print("❌ No streak data available.")
+            else:
+                print(
+                    f"🏆 Absolute Longest System-Wide Streak: "
+                    f"{top_run} consecutive periods for '{top_habit.habit_name}'."
+                )
 
         elif choice == "4":
             if not habits:
