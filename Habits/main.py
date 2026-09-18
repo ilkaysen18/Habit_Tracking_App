@@ -120,7 +120,7 @@ def check_off_habit_flow(habits: list) -> None:
     with get_connection() as conn:
         available = [
             h for h in habits
-            if not completed_habits(conn, h.habit_id, h.periodicity)
+            if not completed_habits(h.habit_id, h.periodicity)
         ]
 
     if not available:
