@@ -116,17 +116,26 @@ def check_off_habit_flow(habits: list) -> None:
         print("❌ No current tracking filters found.")
         return
 
-    for idx, h in enumerate(habits):
-		completed_habits = completion_logs(habit_id, completed_at)
-		print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
-			not completed_habits(habit_id, completed_at)
+    # Build a list of habits that are NOT completed yet "for the current period"
+    with get_connection() as conn:
+        available = [
+            h for h in habits
+            if not is_completed_now_for_period(conn, h.habit_id, h.periodicity)
+        ]
+
+    if not available:
+        print("✅ All habits are already completed for the current period.")
+        return
+
+    for idx, h in enumerate(available):
+        print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
     try:
         selection = int(input("\nSelect habit index row to complete: ")) - 1
-        if selection < 0 or selection >= len(habits):
+        if selection < 0 or selection >= len(available):
             raise IndexError
 
-        target_habit = habits[selection]
+        target_habit = available[selection]
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with get_connection() as conn:
@@ -171,11 +180,6 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
     """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
 
     return cursor.fetchone() is not None
-
-
-
-
-
 
 
 def run_analytics_dashboard(habits: list, logs: list) -> None:
