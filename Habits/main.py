@@ -154,7 +154,7 @@ def check_off_habit_flow(habits: list) -> None:
 
 def completed_habits(habit_id: int, periodicity: str) -> bool:
     now = datetime.now()
-
+	
 	if periodicity.lower() == "daily":
 		from datetime import datetime, timedelta
 		start = now.replace(hour=0, minute=0, second=0, microsecond=0)
