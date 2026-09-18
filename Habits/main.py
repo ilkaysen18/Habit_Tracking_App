@@ -8,7 +8,7 @@ It connects the Database to the Analytics.
 
 
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from database.db_manager import initialize_tables, seed_predefined_fixtures, get_connection
 from models.habit import Habit
 from models.completion_log import CompletionLog
@@ -156,7 +156,6 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
     now = datetime.now()
 
     if periodicity.lower() == "daily":
-        from datetime import datetime, timedelta
         start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(days=1)
 
