@@ -373,8 +373,9 @@ def main():
         print("3. Open Functional Analytics Dashboard")
         print("4. Edit an Existing Habit (Name / Periodicity)")
         print("5. Terminate State Machine & Exit")
+        print("6. Test Fixture (4-Weeks Dummy Data)")
 
-        choice = input("\nSelect option coordinate (1-5): ").strip()
+        choice = input("\nSelect option coordinate (1-6): ").strip()
 
         if choice == "1":
             create_new_habit_flow(habits)
@@ -385,10 +386,12 @@ def main():
         elif choice == "4":
             edit_habit_flow(habits)
         elif choice == "5":
-            print("\nProgress securely saved to local storage file. Closing runtime loop. Goodbye!")
+            print("\nProgress saved to local storage. Closing runtime loop. See you again soon!")
             sys.exit()
+        elif choice == "6":
+            run_test_fixture_4_weeks()
         else:
-            print("❌ Input Error: Unrecognized instruction. Please choose options 1-5.")
+            print("❌ Input Error: Unrecognized instruction. Please choose options 1-6.")
 
 if __name__ == "__main__":
     main()
