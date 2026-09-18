@@ -172,19 +172,46 @@ def check_off_habit_flow(habits: list) -> None:
 
 def completed_habits(habit_id: int, periodicity: str) -> bool:
     now = datetime.now()
+    p = periodicity.lower()
 
-    if periodicity.lower() == "daily":
+    if p == "daily":
         start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(days=1)
 
-    elif periodicity.lower() == "weekly":
-        # week window: from Monday 00:00 to next Monday 00:00
+    elif p == "weekly":
+        # week window: Monday 00:00 to next Monday 00:00
         start = now - timedelta(days=now.weekday())
         start = start.replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(weeks=1)
 
+    elif p == "biweekly" or p == "fortnightly":
+        # treat both as 2-week windows; anchor to the start of the current week (Monday)
+        week_start = now - timedelta(days=now.weekday())
+        week_start = week_start.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # align to an even 2-week block relative to a fixed anchor date
+        anchor = datetime(2020, 1, 6)  # Monday
+        anchor = anchor.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        weeks_since_anchor = (week_start - anchor).days // 7
+        current_block_start = week_start - timedelta(weeks=weeks_since_anchor % 2)
+        start = current_block_start
+        end = start + timedelta(weeks=2)
+
+    elif p == "monthly":
+        start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        # move to first day of next month
+        if now.month == 12:
+            end = now.replace(year=now.year + 1, month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            end = now.replace(month=now.month + 1, day=1, hour=0, minute=0, second=0, microsecond=0)
+
+    elif p == "yearly":
+        start = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        end = start.replace(year=start.year + 1)
+
     else:
-        # Fallback: treat as "not completed" unless you implement the window
+        # Unknown periodicity => treat as not completed
         return False
 
     with get_connection() as conn:
