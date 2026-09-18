@@ -108,34 +108,13 @@ def create_new_habit_flow(habits: list) -> None:
     print(f"✅ New habit saved: '{name}' set to {periodicity}.")
 
 
-def five_predefined_habits() -> None:
-    """These are the 5 Predefined Habits."""
-    with get_connection() as conn:
-        cursor = conn.cursor()
+def check_off_habit_flow(habits: list) -> None:
+    """For the completion of habit/tasks."""
+    print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
 
-    # Prevents duplication:
-    cursor.execute("SELECT COUNT(*) FROM habits;")
-    if cursor.fetchone()[0] > 0:
+    if not habits:
+        print("❌ No current tracking filters found.")
         return
-
-    import sys
-    from main import create_new_habit_flow
-
-    period_specifications = {
-        "1": "daily",
-        "2": "weekly",
-        "3": "biweekly",
-        "4": "fortnightly",
-        "5": "monthly",
-        "6": "yearly"
-    }
-
-    periodicity = period_specifications.get(p_choice)
-    if not periodicity:
-        print("❌ Invalid periodicity choice.")
-        return
-
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # 1. Defines the 5 Data Records:
     predefined_habits = [
@@ -144,24 +123,6 @@ def five_predefined_habits() -> None:
         ("Read 10 pages", "daily"),
         ("Wash the car", "weekly"),
         ("Submit weekly timesheet", "weekly")
-    ]
-
-    for name, periodicity in five_predefined_habits:
-        cursor.execute("""
-            INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
-            VALUES (?, ?, ?, ?);
-        """, (name, periodicity, start_date.strftime("%Y-%m-%d %H:%M:%S"), start_date.strftime("%Y-%m-%d %H:%M:%S")))
-        habit_id = cursor.lastrowid
-        conn.commit()
-
-
-def check_off_habit_flow(habits: list) -> None:
-    """For the completion of habit/tasks."""
-    print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
-
-    if not habits:
-        print("❌ No current tracking filters found.")
-        return
 
     # List the 5 Predefined Habits
     list(five_predefined_habits)
