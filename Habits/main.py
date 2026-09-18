@@ -123,6 +123,7 @@ def check_off_habit_flow(habits: list) -> None:
         ("Read 10 pages", "daily"),
         ("Wash the car", "weekly"),
         ("Submit weekly timesheet", "weekly")
+    ]
 
     # List the 5 Predefined Habits
     list(five_predefined_habits)
