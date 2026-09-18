@@ -88,3 +88,35 @@ def seed_predefined_fixtures() -> None:
             """, (name, periodicity, start_str, start_str))
 
         conn.commit()
+
+
+def update_habit_name(habit_id: int, new_name: str) -> None:
+    """Updates the habit_name for a given habit_id."""
+    new_name = (new_name or "").strip()
+    if not new_name:
+        return
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE habits
+            SET habit_name = ?, edited_at = ?
+            WHERE habit_id = ?;
+        """, (new_name, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), habit_id))
+        conn.commit()
+
+
+def update_habit_periodicity(habit_id: int, new_periodicity: str) -> None:
+    """Updates the periodicity for a given habit_id."""
+    valid_bounds = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
+    if not new_periodicity or new_periodicity.lower() not in valid_bounds:
+        return
+
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE habits
+            SET periodicity = ?, edited_at = ?
+            WHERE habit_id = ?;
+        """, (new_periodicity.lower(), datetime.now().strftime("%Y-%m-%d %H:%M:%S"), habit_id))
+        conn.commit()
