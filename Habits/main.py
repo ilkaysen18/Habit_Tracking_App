@@ -146,26 +146,15 @@ def check_off_habit_flow(habits: list) -> None:
         print("❌ No current tracking filters found.")
         return
 
-    # Filter out habits that are already completed "now" for their periodicity
-    with get_connection() as conn:
-        available = [
-            h for h in habits
-            if not is_completed_now_for_period(conn, h.habit_id, h.periodicity)
-        ]
-
-    if not available:
-        print("✅ All habits are already completed for the current period.")
-        return
-
-    for idx, h in enumerate(available):
+    for idx, h in enumerate(habits):
         print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
     try:
         selection = int(input("\nSelect habit index row to complete: ")) - 1
-        if selection < 0 or selection >= len(available):
+        if selection < 0 or selection >= len(habits):
             raise IndexError
 
-        target_habit = available[selection]
+        target_habit = habits[selection]
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with get_connection() as conn:
