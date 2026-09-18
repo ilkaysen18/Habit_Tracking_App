@@ -108,7 +108,41 @@ def create_new_habit_flow(habits: list) -> None:
     print(f"✅ New habit saved: '{name}' set to {periodicity}.")
 
 
-def is_completed_now_for_period(conn, habit_id: int, periodicity: str) -> bool:
+def check_off_habit_flow(habits: list) -> None:
+    """For the completion of habit/tasks."""
+    print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
+
+    if not habits:
+        print("❌ No current tracking filters found.")
+        return
+
+    for idx, h in enumerate(habits):
+        print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+			if not from completion_logs(habit_id, completed_at)
+
+    try:
+        selection = int(input("\nSelect habit index row to complete: ")) - 1
+        if selection < 0 or selection >= len(habits):
+            raise IndexError
+
+        target_habit = habits[selection]
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO completion_logs (habit_id, completed_at)
+                VALUES (?, ?);
+            """, (target_habit.habit_id, now_str))
+            conn.commit()
+
+        print(f"🎯 Milestone saved! '{target_habit.habit_name}' checked off at {now_str}.")
+
+    except (ValueError, IndexError):
+        print("❌ Interface Exception: Invalid option coordinates selected.")
+
+
+def completed_habits(habit_id: int, periodicity: str) -> bool:
     now = datetime.now()
 
     if periodicity.lower() == "daily":
@@ -138,37 +172,9 @@ def is_completed_now_for_period(conn, habit_id: int, periodicity: str) -> bool:
     return cursor.fetchone() is not None
 
 
-def check_off_habit_flow(habits: list) -> None:
-    """For the completion of habit/tasks."""
-    print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
 
-    if not habits:
-        print("❌ No current tracking filters found.")
-        return
 
-    for idx, h in enumerate(habits):
-        print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
-    try:
-        selection = int(input("\nSelect habit index row to complete: ")) - 1
-        if selection < 0 or selection >= len(habits):
-            raise IndexError
-
-        target_habit = habits[selection]
-        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        with get_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO completion_logs (habit_id, completed_at)
-                VALUES (?, ?);
-            """, (target_habit.habit_id, now_str))
-            conn.commit()
-
-        print(f"🎯 Milestone saved! '{target_habit.habit_name}' checked off at {now_str}.")
-
-    except (ValueError, IndexError):
-        print("❌ Interface Exception: Invalid option coordinates selected.")
 
 
 def run_analytics_dashboard(habits: list, logs: list) -> None:
