@@ -116,6 +116,9 @@ def check_off_habit_flow(habits: list) -> None:
         print("❌ No current tracking filters found.")
         return
 
+    # List the 5 Predefined Habits
+    list database.predefined_habits(five_predefined_habits)
+
     # Build a list of habits that are NOT completed yet "for the current period"
     with get_connection() as conn:
         available = [
