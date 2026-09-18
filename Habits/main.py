@@ -117,7 +117,7 @@ def check_off_habit_flow(habits: list) -> None:
         return
 
     # 1. Defines the 5 Data Records:
-    predefined_habits = [
+    five_predefined_habits = [
         ("Drink 2L water", "daily"),
         ("Go to the gym", "daily"),
         ("Read 10 pages", "daily"),
