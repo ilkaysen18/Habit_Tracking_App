@@ -8,19 +8,16 @@ This is a separate DB for the Test Fixture of 4-Weeks Dummy Data for the 5 Prede
 
 import sqlite3
 
-def get_test_connection(db_name: str = "habits_test_fixture.db"):
+def get_test_connection(db_name: str = "test_fixture.db"):
     return sqlite3.connect(db_name)
 
-def initialize_test_tables(db_name: str = "habits_test_fixture.db"):
-    # Reuse your existing schema logic if possible.
-    # If you currently have a CREATE TABLE script inside initialize_tables(),
-    # either call that logic here, or duplicate it for the test DB connection.
+def initialize_test_tables(db_name: str = "test_fixture.db"):
 
     with sqlite3.connect(db_name) as conn:
         cursor = conn.cursor()
 
         # IMPORTANT:
-        # Replace these table definitions with YOUR real ones if they differ.
+        # Replace these table definitions with THE SAME DATA TYPES AS MAIN DB.
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS habits (
                 habit_id INTEGER PRIMARY KEY AUTOINCREMENT,
