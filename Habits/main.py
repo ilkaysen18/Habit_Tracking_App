@@ -1,5 +1,5 @@
 """
-HABIT TRACKER CLI CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:.
+HABIT TRACKER CLI CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:
 
 This Module holds the Menu loop and validates user input flows.
 It connects the Database to the Analytics.
