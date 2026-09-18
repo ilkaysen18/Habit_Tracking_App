@@ -117,9 +117,9 @@ def check_off_habit_flow(habits: list) -> None:
         return
 
     for idx, h in enumerate(habits):
-		completed_habits = completion_logs(habit_id, completed_at)
-        print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
-		not completed_habits(habit_id, completed_at)
+completed_habits = completion_logs(habit_id, completed_at)
+print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+not completed_habits(habit_id, completed_at)
 
     try:
         selection = int(input("\nSelect habit index row to complete: ")) - 1
