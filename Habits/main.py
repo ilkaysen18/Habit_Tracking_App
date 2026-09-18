@@ -169,6 +169,7 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
         # Fallback: treat as "not completed" unless you implement the window
         return False
 
+    with get_connection() as conn:
     cursor = conn.cursor()
     cursor.execute("""
         SELECT 1
