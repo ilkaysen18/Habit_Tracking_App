@@ -337,7 +337,8 @@ def main():
 		print("1. Create a New Custom Habit Track")
 		print("2. Mark a Habit Task as Completed")
 		print("3. Open Functional Analytics Dashboard")
-		print("4. Terminate State Machine & Exit")
+		print("4. Edit an Existing Habit (Name / Periodicity)")
+		print("5. Terminate State Machine & Exit")
 
 		choice = input("\nSelect option coordinate (1-4): ").strip()
 
