@@ -1,5 +1,5 @@
 """
-HABIT TRACKER CLI CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:
+HABIT TRACKER CLI CLASS - MAIN GATEWAY FOR COMMAND LINE INTERFACE LAYER:.
 
 This Module holds the Menu loop and validates user input flows.
 It connects the Database to the Analytics.
@@ -267,42 +267,42 @@ def edit_habit_flow(habits: list) -> None:
 def run_analytics_dashboard(habits: list, logs: list) -> None:
     """Functional Analytics Queries to analyze user progress."""
     while True:
-        print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
-        print("1. List All Currently Tracked Habits")
-        print("2. Filter Habits by Periodicity Bounds")
-        print("3. View Longest Completion Run Streak Across All Habits")
-        print("4. View Longest Completion Run Streak for One Specific Habit")
-        print("5. Return to Application Main Menu")
-        
-        choice = input("\nSelect analytics filter (1-5): ").strip()
-        
-        if choice == "1":
-            all_h = list_all_habits(habits)
-            print("\n📋 MASTER TRACKING REGISTRY:")
-            for h in all_h:
-                print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
-                
-        elif choice == "2":
-            # Expands array to match periodicity bounds:
-            valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
-            
-            print("\nAvailable filters: " + ", ".join(valid_filters))
-            p = input("Enter frequency: ").strip().lower()
-            
-            if p in valid_filters:
-                filtered = filter_by_periodicity(habits, p)
-                print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
-                if not filtered:
-                    print("  No habits found matching this timeframe.")
-                for h in filtered:
-                    print(f" • {h.habit_name}")
+    print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
+    print("1. List All Currently Tracked Habits")
+    print("2. Filter Habits by Periodicity Bounds")
+    print("3. View Longest Completion Run Streak Across All Habits")
+    print("4. View Longest Completion Run Streak for One Specific Habit")
+    print("5. Return to Application Main Menu")
+
+    choice = input("\nSelect analytics filter (1-5): ").strip()
+
+    if choice == "1":
+        all_h = list_all_habits(habits)
+        print("\n📋 MASTER TRACKING REGISTRY:")
+        for h in all_h:
+            print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
+
+    elif choice == "2":
+        # Expands array to match periodicity bounds:
+        valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
+
+        print("\nAvailable filters: " + ", ".join(valid_filters))
+        p = input("Enter frequency: ").strip().lower()    
+
+        if p in valid_filters:
+            filtered = filter_by_periodicity(habits, p)
+            print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
+            if not filtered:
+                print("  No habits found matching this timeframe.")
+            for h in filtered:
+                print(f" • {h.habit_name}")
             else:
                 print("❌ Invalid filter bounds entered.")
-                
+
         elif choice == "3":
             top_run = get_longest_streak_all(habits, logs)
             print(f"\n🏆 Absolute Longest System-Wide Streak: {top_run} consecutive periods!")
-            
+
         elif choice == "4":
             if not habits:
                 print("❌ No rows available to verify.")
@@ -318,27 +318,27 @@ def run_analytics_dashboard(habits: list, logs: list) -> None:
                 print(f"\n🎯 Max consecutive streak for '{target.habit_name}': {streak} periods.")
             except (ValueError, IndexError):
                 print("❌ Selection out of operational bounds.")
-                
+
         elif choice == "5":
             break
 
 
 def main():
-	"""This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
-	# Ensures Database structures and Test Fixtures are verified when launching the application:
-	initialize_tables()
-	seed_predefined_fixtures()
+    """This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
+    # Ensures Database structures and Test Fixtures are verified when launching the application:
+    initialize_tables()
+    seed_predefined_fixtures()
 
-	while True:
-		# Rehydrates (restores from memory) Object caches and maintains real-time sync:
-		habits, logs = fetch_active_environment()
+    while True:
+        # Rehydrates (restores from memory) Object caches and maintains real-time sync:
+        habits, logs = fetch_active_environment()
 
-		print("\n=== 📋 MAIN INTERACTIVE APP MENU ===")
-		print("1. Create a New Custom Habit Track")
-		print("2. Mark a Habit Task as Completed")
-		print("3. Open Functional Analytics Dashboard")
-		print("4. Edit an Existing Habit (Name / Periodicity)")
-		print("5. Terminate State Machine & Exit")
+        print("\n=== 📋 MAIN INTERACTIVE APP MENU ===")
+        print("1. Create a New Custom Habit Track")
+        print("2. Mark a Habit Task as Completed")
+        print("3. Open Functional Analytics Dashboard")
+        print("4. Edit an Existing Habit (Name / Periodicity)")
+        print("5. Terminate State Machine & Exit")
 
         choice = input("\nSelect option coordinate (1-5): ").strip()
 
@@ -357,4 +357,4 @@ def main():
             print("❌ Input Error: Unrecognized instruction. Please choose options 1-5.")
 
 if __name__ == "__main__":
-	main()
+    main()
