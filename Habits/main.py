@@ -267,31 +267,31 @@ def edit_habit_flow(habits: list) -> None:
 def run_analytics_dashboard(habits: list, logs: list) -> None:
     """Functional Analytics Queries to analyze user progress."""
     while True:
-    print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
-    print("1. List All Currently Tracked Habits")
-    print("2. Filter Habits by Periodicity Bounds")
-    print("3. View Longest Completion Run Streak Across All Habits")
-    print("4. View Longest Completion Run Streak for One Specific Habit")
-    print("5. Return to Application Main Menu")
+        print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
+        print("1. List All Currently Tracked Habits")
+        print("2. Filter Habits by Periodicity Bounds")
+        print("3. View Longest Completion Run Streak Across All Habits")
+        print("4. View Longest Completion Run Streak for One Specific Habit")
+        print("5. Return to Application Main Menu")
 
-    choice = input("\nSelect analytics filter (1-5): ").strip()
+        choice = input("\nSelect analytics filter (1-5): ").strip()
 
-    if choice == "1":
-        all_h = list_all_habits(habits)
-        print("\n📋 MASTER TRACKING REGISTRY:")
-        for h in all_h:
-            print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
+        if choice == "1":
+            all_h = list_all_habits(habits)
+            print("\n📋 MASTER TRACKING REGISTRY:")
+            for h in all_h:
+                print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
 
-    elif choice == "2":
-        # Expands array to match periodicity bounds:
-        valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
+        elif choice == "2":
+            # Expands array to match periodicity bounds:
+            valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
 
-        print("\nAvailable filters: " + ", ".join(valid_filters))
-        p = input("Enter frequency: ").strip().lower()    
+            print("\nAvailable filters: " + ", ".join(valid_filters))
+            p = input("Enter frequency: ").strip().lower()    
 
-        if p in valid_filters:
-            filtered = filter_by_periodicity(habits, p)
-            print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
+            if p in valid_filters:
+                filtered = filter_by_periodicity(habits, p)
+                print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
             if not filtered:
                 print("  No habits found matching this timeframe.")
             for h in filtered:
