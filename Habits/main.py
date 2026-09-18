@@ -116,7 +116,6 @@ def check_off_habit_flow(habits: list) -> None:
         print("❌ No current tracking filters found.")
         return
 
-    # Lists custom habits with their 1-6 strings:
     for idx, h in enumerate(habits):
         print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
@@ -131,8 +130,8 @@ def check_off_habit_flow(habits: list) -> None:
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
-                VALUES (?, ?, ?, ?);
+                INSERT INTO completion_logs (habit_id, completed_at)
+                VALUES (?, ?);
             """, (target_habit.habit_id, now_str))
             conn.commit()
 
