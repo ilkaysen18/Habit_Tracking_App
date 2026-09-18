@@ -264,7 +264,8 @@ def edit_habit_flow(habits: list) -> None:
         print("❌ Invalid option.")
 
 
-def run_analytics_dashboard(habits: list, logs: list) -> None:
+def run_analytics_dashboard(habits: list, logs: list):
+    filtered = None
     """Functional Analytics Queries to analyze user progress."""
     while True:
         print("\n=== 📊 FUNCTIONAL ANALYTICS FILTERS ===")
@@ -283,21 +284,20 @@ def run_analytics_dashboard(habits: list, logs: list) -> None:
                 print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
 
         elif choice == "2":
-            # Expands array to match periodicity bounds:
             valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
-
             print("\nAvailable filters: " + ", ".join(valid_filters))
-            p = input("Enter frequency: ").strip().lower()    
+
+            p = input("Enter frequency: ").strip().lower()
 
             if p in valid_filters:
                 filtered = filter_by_periodicity(habits, p)
-                print(f"\n🔍 ONLY SHOWING {p.upper()} TRACKERS:")
+
+                print(f"\n🔎 ONLY SHOWING {p.upper()} TRACKERS:")
             if not filtered:
-                print("  No habits found matching this timeframe.")
-            for h in filtered:
-                print(f" • {h.habit_name}")
+                print("❌ No habits found matching this timeframe.")
             else:
-                print("❌ Invalid filter bounds entered.")
+                for h in filtered:
+                    print(f" • {h.habit_name}")
 
         elif choice == "3":
             top_run = get_longest_streak_all(habits, logs)
