@@ -9,7 +9,13 @@ It connects the Database to the Analytics.
 
 import sys
 from datetime import datetime, timedelta
-from database.db_manager import initialize_tables, seed_predefined_fixtures, get_connection
+from database.db_manager import (
+    initialize_tables,
+    seed_predefined_fixtures,
+    get_connection,
+    update_habit_name,
+    update_habit_periodicity
+)
 from models.habit import Habit
 from models.completion_log import CompletionLog
 from modules.analytics import (
@@ -193,6 +199,69 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
         """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
 
     return cursor.fetchone() is not None
+
+
+def edit_habit_flow(habits: list) -> None:
+    """Edit a habit's name or periodicity from the CLI."""
+    if not habits:
+        print("❌ No habits available to edit.")
+        return
+
+    print("\n--- ✏️ EDIT A HABIT ---")
+    for idx, h in enumerate(habits):
+        print(f"{idx + 1}. ID {h.habit_id}: {h.habit_name} [{h.periodicity}]")
+
+    try:
+        sel = int(input("\nSelect habit index to edit: ")) - 1
+        if sel < 0 or sel >= len(habits):
+            raise IndexError
+        target = habits[sel]
+    except (ValueError, IndexError):
+        print("❌ Selection out of operational bounds.")
+        return
+
+    print("\nEdit what?")
+    print("1. Edit habit name")
+    print("2. Edit habit periodicity")
+    choice = input("Select option (1-2): ").strip()
+
+    if choice == "1":
+        new_name = input("Enter new habit name: ").strip()
+        if not new_name:
+            print("❌ Habit name cannot be empty.")
+            return
+        update_habit_name(target.habit_id, new_name)
+        print(f"✅ Updated habit name to: '{new_name}'")
+
+    elif choice == "2":
+        print("Choose Time Frame:")
+        print("1. daily")
+        print("2. weekly")
+        print("3. biweekly")
+        print("4. fortnightly")
+        print("5. monthly")
+        print("6. yearly")
+        p_choice = input("Select choice code (1-6): ").strip()
+
+        period_specifications = {
+            "1": "daily",
+            "2": "weekly",
+            "3": "biweekly",
+            "4": "fortnightly",
+            "5": "monthly",
+            "6": "yearly"
+        }
+
+        periodicity = period_specifications.get(p_choice)
+        if not periodicity:
+            print("❌ Invalid periodicity choice.")
+            return
+
+        update_habit_periodicity(target.habit_id, periodicity)
+        print(f"✅ Updated periodicity to: {periodicity}")
+
+    else:
+        print("❌ Invalid option.")
 
 
 def run_analytics_dashboard(habits: list, logs: list) -> None:
