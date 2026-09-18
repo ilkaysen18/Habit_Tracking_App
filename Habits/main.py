@@ -108,6 +108,36 @@ def create_new_habit_flow(habits: list) -> None:
     print(f"✅ New habit saved: '{name}' set to {periodicity}.")
 
 
+def is_completed_now_for_period(conn, habit_id: int, periodicity: str) -> bool:
+    now = datetime.now()
+
+    if periodicity.lower() == "daily":
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(days=1)
+
+    elif periodicity.lower() == "weekly":
+        # week window: from Monday 00:00 to next Monday 00:00
+        start = now - timedelta(days=now.weekday())
+        start = start.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(weeks=1)
+
+    else:
+        # Fallback: treat as "not completed" unless you implement the window
+        return False
+
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 1
+        FROM completion_logs
+        WHERE habit_id = ?
+          AND completed_at >= ?
+          AND completed_at < ?
+        LIMIT 1;
+    """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
+
+    return cursor.fetchone() is not None
+
+
 def check_off_habit_flow(habits: list) -> None:
     """For the completion of habit/tasks."""
     print("\n--- ✅ CHECK-OFF A HABIT OR TASK ---")
