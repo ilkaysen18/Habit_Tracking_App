@@ -154,33 +154,33 @@ def check_off_habit_flow(habits: list) -> None:
 
 def completed_habits(habit_id: int, periodicity: str) -> bool:
     now = datetime.now()
-	
-	if periodicity.lower() == "daily":
-		from datetime import datetime, timedelta
-		start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-		end = start + timedelta(days=1)
 
-	elif periodicity.lower() == "weekly":
-    	# week window: from Monday 00:00 to next Monday 00:00
-    	start = now - timedelta(days=now.weekday())
-    	start = start.replace(hour=0, minute=0, second=0, microsecond=0)
-    	end = start + timedelta(weeks=1)
+    if periodicity.lower() == "daily":
+        from datetime import datetime, timedelta
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(days=1)
 
-	else:
-		# Fallback: treat as "not completed" unless you implement the window
-		return False
+    elif periodicity.lower() == "weekly":
+        # week window: from Monday 00:00 to next Monday 00:00
+        start = now - timedelta(days=now.weekday())
+        start = start.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(weeks=1)
 
-	cursor = conn.cursor()
-	cursor.execute("""
-    	SELECT 1
-    	FROM completion_logs
-    	WHERE habit_id = ?
-    	AND completed_at >= ?
-    	AND completed_at < ?
-    	LIMIT 1;
-	""", (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
+    else:
+        # Fallback: treat as "not completed" unless you implement the window
+        return False
 
-	return cursor.fetchone() is not None
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 1
+        FROM completion_logs
+        WHERE habit_id = ?
+        AND completed_at >= ?
+        AND completed_at < ?
+        LIMIT 1;
+    """, (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
+
+    return cursor.fetchone() is not None
 
 
 def run_analytics_dashboard(habits: list, logs: list) -> None:
