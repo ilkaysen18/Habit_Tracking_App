@@ -39,7 +39,7 @@ def initialize_test_tables(db_name: str = "test_fixture.db"):
             CREATE TABLE IF NOT EXISTS completion_logs (
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
-                completed_at STRING NOT NULL,
+                completed_at DATETIME NOT NULL,
                 FOREIGN KEY (habit_id) REFERENCES habits(habit_id)
             );
         """)
