@@ -357,6 +357,82 @@ def run_analytics_dashboard(habits: list, logs: list):
             break
 
 
+def run_test_fixture_4_weeks() -> None:
+    print("\n🧪 Test Fixture: 4-Weeks Dummy Data.")
+
+    # Five Predefined Habits.
+    predefined_habits = [
+        ("Drink 2L water", "daily"),
+        ("Go to the gym", "daily"),
+        ("Read 10 pages", "daily"),
+        ("Wash the car", "weekly"),
+        ("Submit weekly timesheet", "weekly"),
+    ]
+
+    # 4-Weeks Dummy Data.
+    now = datetime.now()
+
+    # 28 days for daily habits.
+    daily_dates = [now - timedelta(days=i) for i in range(27, -1, -1)]
+
+    # 4 weeks for weekly habits.
+    weekly_dates = [now - timedelta(weeks=i) for i in range(3, -1, -1)]
+
+    # Imports Test Fixture Database (DB) - which is a separate DB specifically for the Test Fixture.
+    from tests.test_fixture_db import (
+        get_test_connection,
+        initialize_test_tables,
+    )
+
+    TEST_DB_NAME = "test_fixture.db"
+
+    # Ensure tables exist in the Test DB
+    initialize_test_tables(TEST_DB_NAME)
+
+    with get_test_connection(TEST_DB_NAME) as conn:
+        cursor = conn.cursor()
+
+        # Clears Fixture Data so re-running doesn't duplicate.
+        cursor.execute("DELETE FROM completion_logs;")
+        cursor.execute("DELETE FROM habits;")
+        conn.commit()
+
+        # Inserts Habits using IDs.
+        habit_id_tests = {}
+        now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        for name, periodicity in predefined_habits:
+            cursor.execute("""
+                INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
+                VALUES (?, ?, ?, ?);
+            """, (name, periodicity, now_str, now_str))
+            habit_id_tests[(name, periodicity)] = cursor.lastrowid
+
+        conn.commit()
+
+        # Inserts Completion Logs.
+        for name, periodicity in predefined_habits:
+            habit_id = habit_id_tests[(name, periodicity)]
+
+            if periodicity == "daily":
+                for d in daily_dates:
+                    cursor.execute("""
+                        INSERT INTO completion_logs (habit_id, completed_at)
+                        VALUES (?, ?);
+                    """, (habit_id, d.strftime("%Y-%m-%d %H:%M:%S")))
+
+            elif periodicity == "weekly":
+                for w in weekly_dates:
+                    cursor.execute("""
+                        INSERT INTO completion_logs (habit_id, completed_at)
+                        VALUES (?, ?);
+                    """, (habit_id, w.strftime("%Y-%m-%d %H:%M:%S")))
+
+        conn.commit()
+
+    print("✅ Test Fixture has been added.")
+
+
 def main():
     """This initializes the system files along with the Test Fixtures and hosts the CLI Menu loop."""
     # Ensures Database structures and Test Fixtures are verified when launching the application:
