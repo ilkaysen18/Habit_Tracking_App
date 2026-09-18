@@ -175,8 +175,8 @@ def completed_habits(habit_id: int, periodicity: str) -> bool:
     	SELECT 1
     	FROM completion_logs
     	WHERE habit_id = ?
-    		AND completed_at >= ?
-    		AND completed_at < ?
+    	AND completed_at >= ?
+    	AND completed_at < ?
     	LIMIT 1;
 	""", (habit_id, start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S")))
 
