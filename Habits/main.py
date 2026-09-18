@@ -167,8 +167,8 @@ elif periodicity.lower() == "weekly":
     end = start + timedelta(weeks=1)
 
 else:
-    # Fallback: treat as "not completed" unless you implement the window
-    return False
+# Fallback: treat as "not completed" unless you implement the window
+return False
 
 cursor = conn.cursor()
 cursor.execute("""
