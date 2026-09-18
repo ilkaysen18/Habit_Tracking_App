@@ -49,71 +49,42 @@ def initialize_tables() -> None:
 
 
 def seed_predefined_fixtures() -> None:
-    """Automates the 5 Predefined Test Fixtures and generates 4-Week Test Data."""
+    """Ensures the 5 Predefined Habits exist in the DB (no early return)."""
+
     with get_connection() as conn:
         cursor = conn.cursor()
 
-    # Prevents duplication:
-    cursor.execute("SELECT COUNT(*) FROM habits;")
-    if cursor.fetchone()[0] > 0:
-        return
-      
-    now = datetime.now()
-    start_date = now - timedelta(weeks=4)
+        predefined_habits = [
+            ("Drink 2L water", "daily"),
+            ("Go to the gym", "daily"),
+            ("Read 10 pages", "daily"),
+            ("Wash the car", "weekly"),
+            ("Submit weekly timesheet", "weekly")
+        ]
 
-    # 1. Defines the 5 Data Records:
-    predefined_habits = [
-        ("Drink 2L water", "daily"),
-        ("Go to the gym", "daily"),
-        ("Read 10 pages", "daily"),
-        ("Wash the car", "weekly"),
-        ("Submit weekly timesheet", "weekly")
-    ]
+        now = datetime.now()
+        start_date = now - timedelta(weeks=4)
+        now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+        start_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
 
-    for name, periodicity in predefined_habits:
-        cursor.execute("""
-            INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
-            VALUES (?, ?, ?, ?);
-        """, (name, periodicity, start_date.strftime("%Y-%m-%d %H:%M:%S"), start_date.strftime("%Y-%m-%d %H:%M:%S")))
-            
-        habit_id = cursor.lastrowid
+        for name, periodicity in predefined_habits:
+            # Check if this predefined habit already exists
+            cursor.execute("""
+                SELECT habit_id
+                FROM habits
+                WHERE habit_name = ?
+                    AND periodicity = ?
+                LIMIT 1;
+            """, (name, periodicity))
 
-        # 2. Automates timestamp Data Block loops of 4 Weeks.
-        current_log_date = start_date
-        while current_log_date <= now:
-            if periodicity == "daily":
-                # "Drink 2L water" includes a few gaps for Testing "streak" breaks/resets:
-                if name == "Go to the gym":
-                    day_offset = (current_log_date - start_date).days
+            existing = cursor.fetchone()
+            if existing is not None:
+                continue  # already exists; do not insert again
 
-                    # Similar to Test Fixture:
-                    # - insert for offsets (days broken) 0,1,2
-                    # - skip offsets 3,4
-                    # - insert for offsets 5,6
-                    if day_offset in (3, 4):
-                        current_log_date += timedelta(days=1)
-                        continue
-                    
-                cursor.execute("""
-                    INSERT INTO completion_logs (habit_id, completed_at)
-                    VALUES (?, ?);
-                """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
-                current_log_date += timedelta(days=1)
-                
-            elif periodicity == "weekly":
-                cursor.execute("""
-                    INSERT INTO completion_logs (habit_id, completed_at)
-                    VALUES (?, ?);
-                """, (habit_id, current_log_date.strftime("%Y-%m-%d %H:%M:%S")))
-                current_log_date += timedelta(weeks=1)
-              
-            elif periodicity == "biweekly":
-                current_log_date += timedelta(days=3)        # Standardizes biweekly as 3 days (considering biweekly is twice weekly).
-            elif periodicity == "fortnightly":
-                current_log_date += timedelta(days=14)       # The standardized fortnightly time period of 14 days.
-            elif periodicity == "monthly":
-                current_log_date += timedelta(days=30)       # Standardizes monthly as 30 days.
-            elif periodicity == "yearly":
-                current_log_date += timedelta(days=365)      # The standardized yearly time period of 365 days.
-              
-    conn.commit()
+            # Insert missing habit
+            cursor.execute("""
+                INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
+                VALUES (?, ?, ?, ?);
+            """, (name, periodicity, start_str, start_str))
+
+        conn.commit()
