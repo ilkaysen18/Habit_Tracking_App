@@ -450,8 +450,9 @@ def main():
         print("4. Edit an Existing Habit (Name / Periodicity)")
         print("5. Terminate State Machine & Exit")
         print("6. Test Fixture (4-Weeks Dummy Data)")
+        print("7. Analytics Dashboard for Test Fixture")
 
-        choice = input("\nSelect option coordinate (1-6): ").strip()
+        choice = input("\nSelect option coordinate (1-7): ").strip()
 
         if choice == "1":
             create_new_habit_flow(habits)
@@ -466,8 +467,11 @@ def main():
             sys.exit()
         elif choice == "6":
             run_test_fixture_4_weeks()
+        elif choice == "7":
+            TEST_DB_NAME = "test_fixture.db"
+            run_test_fixture_analytics_dashboard(TEST_DB_NAME)
         else:
-            print("❌ Input Error: Unrecognized instruction. Please choose options 1-6.")
+            print("❌ Input Error: Unrecognized instruction. Please choose options 1-7.")
 
 if __name__ == "__main__":
     main()
