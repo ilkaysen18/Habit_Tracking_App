@@ -27,6 +27,9 @@ from modules.analytics import (
 
 
 
+""" Fetching environments from other files, including one for Test Fixtures:"""
+
+
 def fetch_active_environment():
     """
     Queries SQLite3 Tables.
@@ -54,6 +57,41 @@ def fetch_active_environment():
             ))
 
         # 2. Rehydrates the OOD "CompletionLog" Objects:
+        cursor.execute("SELECT log_id, habit_id, completed_at FROM completion_logs;")
+        for row in cursor.fetchall():
+            logs_cache.append(CompletionLog(
+                log_id=row[0],
+                habit_id=row[1],
+                completed_at=datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S")
+            ))
+
+    return habits_cache, logs_cache
+
+
+def fetch_test_fixture_environment(TEST_DB_NAME: str):
+    """A loader for the Testing Database environment."""
+    habits_cache = []
+    logs_cache = []
+
+    from tests.test_fixture_db import get_test_connection
+    """This is known as a Helper Function, which supports other main function/s for Text Fixtures in this Module."""
+
+    with get_test_connection(TEST_DB_NAME) as conn:
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT habit_id, habit_name, periodicity, created_at, edited_at
+            FROM habits;
+        """)
+        for row in cursor.fetchall():
+            habits_cache.append(Habit(
+                habit_id=row[0],
+                habit_name=row[1],
+                periodicity=row[2],
+                created_at=datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S"),
+                edited_at=datetime.strptime(row[4], "%Y-%m-%d %H:%M:%S")
+            ))
+
         cursor.execute("SELECT log_id, habit_id, completed_at FROM completion_logs;")
         for row in cursor.fetchall():
             logs_cache.append(CompletionLog(
@@ -431,6 +469,78 @@ def run_test_fixture_4_weeks() -> None:
         conn.commit()
 
     print("✅ Test Fixture has been added.")
+
+
+def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
+    while True:
+        print("\n=== 📊 FUNCTIONAL ANALYTICS DASHBOARD (TEST FIXTURE) ===")
+        print("1. List All Currently Tracked Habits")
+        print("2. Filter Habits by Periodicity Bounds")
+        print("3. View Longest Completion Run Streak Across All Habits")
+        print("4. View Longest Completion Run Streak for One Specific Habit")
+        print("5. Return to Application Main Menu")
+
+        choice = input("\nSelect analytics option (1-5): ").strip()
+
+        habits, logs = fetch_test_fixture_environment(TEST_DB_NAME)
+
+        if choice == "1":
+            all_h = list_all_habits(habits)
+            print("\n📋 TEST FIXTURE MASTER TRACKING REGISTRY:")
+            for h in all_h:
+                print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
+
+        elif choice == "2":
+            valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
+            print("\nAvailable filters: " + ", ".join(valid_filters))
+
+            p = input("Enter frequency: ").strip().lower()
+
+            if p in valid_filters:
+                filtered = filter_by_periodicity(habits, p)
+                print(f"\n🔎 ONLY SHOWING {p.upper()} TRACKERS:")
+
+                if not filtered:
+                    print("❌ No habits found matching this timeframe.")
+                else:
+                    for h in filtered:
+                        print(f" • {h.habit_name}")
+
+        elif choice == "3":
+            top_habit, top_run = get_longest_streak_all(habits, logs)
+            if not top_habit:
+                print("❌ No streak data available.")
+            else:
+                print(
+                    f"🏆 The Longest Streak for Test Fixtures: "
+                    f"{top_run} consecutive periods for '{top_habit.habit_name}'."
+                )
+
+        elif choice == "4":
+            if not habits:
+                print("❌ No rows available to verify.")
+                continue
+
+            for idx, h in enumerate(habits):
+                print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
+
+            try:
+                sel = int(input("\nSelect habit index code: ")) - 1
+                if sel < 0 or sel >= len(habits):
+                    raise IndexError
+
+                target = habits[sel]
+                streak = get_longest_streak_one(target.habit_id, logs, target.periodicity)
+                print(f"\n🎯 The Longest Test Streak for '{target.habit_name}': {streak} periods.")
+
+            except (ValueError, IndexError):
+                print("❌ Selection is out of operational bounds.")
+
+        elif choice == "5":
+            break
+
+        else:
+            print("❌ Input Error: Unrecognized instruction.")
 
 
 def main():
