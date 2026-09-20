@@ -9,7 +9,7 @@ This file includes the Dummy Data Tables for the Test Fixtures, using SQLite3.
 # Imports SQLite3 for the Dummy Data Tables.
 import sqlite3
 # Imports DATETIME for the Data Types.
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 
