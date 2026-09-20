@@ -41,8 +41,8 @@ def initialize_test_tables(test_fixture_db):
                 habit_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_name STRING NOT NULL,
                 periodicity STRING NOT NULL,
-                created_at DATETIME NOT NULL,
-                edited_at DATETIME NOT NULL
+                created_at STRING,
+                edited_at STRING
             );
         """)
 
@@ -51,7 +51,7 @@ def initialize_test_tables(test_fixture_db):
             CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
-                completed_at DATETIME NOT NULL,
+                completed_at STRING,
                 FOREIGN KEY (habit_id) REFERENCES Predefined_Habits_Test_Fix(habit_id)
             );
         """)
