@@ -503,11 +503,10 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
         elif choice == "2":
             valid_filters = ["daily", "weekly", "biweekly", "fortnightly", "monthly", "yearly"]
             print("\nAvailable filters: " + ", ".join(valid_filters))
-
             p = input("Enter frequency: ").strip().lower()
 
             if p in valid_filters:
-                filtered = filter_by_periodicity(habits, p)
+                filtered = filter_by_periodicity(Predefined_Habits_Test_Fix, p)
                 print(f"\n🔎 ONLY SHOWING {p.upper()} TRACKERS:")
 
                 if not filtered:
@@ -552,7 +551,6 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                 )
 
                 print(f"\n🎯 The Longest Test Streak for '{target.habit_name}': {streak} periods.")
-
             except (ValueError, IndexError):
                 print("❌ Selection is out of operational bounds.")
 
