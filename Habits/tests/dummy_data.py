@@ -34,7 +34,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
                 habit_id INTEGER NOT NULL,
-                completed_at DATETIME
+                completed_at STRING
             );
         """)
 
