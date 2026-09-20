@@ -78,8 +78,8 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
             new_current = current_streak + 1
 
             # If the habit/task completion "streak" is held:
-            return accumulate_streaks
-                (dates_list[1:],
+            return accumulate_streaks(
+                dates_list[1:],
                 new_current,
                 max(max_streak, new_current)
             )
@@ -91,7 +91,7 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
                 1,
                 max_streak
             )
-    
+
     # Returns the defined function:
     return accumulate_streaks(sorted_dates, 1, 1)
 
