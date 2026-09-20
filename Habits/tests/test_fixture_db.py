@@ -8,6 +8,17 @@ This is a separate DB for the Test Fixture of 4-Weeks Dummy Data for the 5 Prede
 
 # Imports SQLite3 for the DB.
 import sqlite3
+# Imports Habits, CompletionLogs, and Analytics from (the general) Models and Modules.
+from datetime import datetime, timedelta
+from models.habit import Habit
+from models.completion_log import CompletionLog
+from modules.analytics import (
+    list_all_habits,
+    filter_by_periodicity,
+    calculate_streak_for_single_habit,
+    get_longest_streak_one,
+    get_longest_streak_all
+)
 
 
 
