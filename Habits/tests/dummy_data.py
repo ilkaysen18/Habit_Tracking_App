@@ -24,7 +24,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS Predefined_Habits_Test_Fix (
-                habit_id INTEGER NOT NULL,
+                habit_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_name STRING NOT NULL,
                 periodicity STRING NOT NULL,
                 created_at STRING,
