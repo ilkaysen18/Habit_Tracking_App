@@ -405,9 +405,9 @@ def run_analytics_dashboard(habits: list, logs: list):
 
 
 def run_test_fixture_4_weeks() -> None:
-    print("\n🧪 Test Fixture: 4-Weeks Dummy Data.")
+    print("\n📁 Test Fixture: 4-Weeks Dummy Data.")
 
-    # Five Predefined Habits.
+    # Five Predefined Habits:
     predefined_habits = [
         ("Drink 2L water", "daily"),
         ("Go to the gym", "daily"),
@@ -416,16 +416,16 @@ def run_test_fixture_4_weeks() -> None:
         ("Submit weekly timesheet", "weekly"),
     ]
 
-    # 4-Weeks Dummy Data.
+    # 4-Weeks Dummy Data:
     now = datetime.now()
 
-    # 28 days for daily habits.
+    # 28 days for daily habits:
     daily_dates = [now - timedelta(days=i) for i in range(27, -1, -1)]
 
-    # 4 weeks for weekly habits.
+    # 4 weeks for weekly habits:
     weekly_dates = [now - timedelta(weeks=i) for i in range(3, -1, -1)]
 
-    # Imports Test Fixture Database (DB) - which is a separate DB specifically for the Test Fixture.
+    # Imports Test Fixture Database (DB) - which is a separate DB specifically for the Test Fixture:
     from tests.test_fixture_db import (
         get_test_connection,
         initialize_test_tables,
@@ -433,47 +433,38 @@ def run_test_fixture_4_weeks() -> None:
 
     TEST_DB_NAME = "test_fixture.db"
 
-    # Ensure tables exist in the Test DB
+    # Ensures tables exist in the Test DB:
     initialize_test_tables(TEST_DB_NAME)
 
     with get_test_connection(TEST_DB_NAME) as conn:
         cursor = conn.cursor()
 
-        # Clears Fixture Data so re-running doesn't duplicate.
-        cursor.execute("DELETE FROM completion_logs;")
-        cursor.execute("DELETE FROM habits;")
+        # Clears Fixture Data so re-running doesn't duplicate:
+        cursor.execute("DELETE FROM Predefined_Habits_Test_Fix;")
+        cursor.execute("DELETE FROM Completion_Logs_Test_Fix;")
         conn.commit()
 
-        # Inserts Habits using IDs.
+        # Inserts into Test Habits using IDs:
         habit_id_tests = {}
         now_str = now.strftime("%Y-%m-%d %H:%M:%S")
 
         for name, periodicity in predefined_habits:
             cursor.execute("""
-                INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
+                INSERT INTO Predefined_Habits_Test_Fix (habit_name, periodicity, created_at, edited_at)
                 VALUES (?, ?, ?, ?);
             """, (name, periodicity, now_str, now_str))
             habit_id_tests[(name, periodicity)] = cursor.lastrowid
 
         conn.commit()
 
-        # Inserts Completion Logs.
+        # Inserts into Test Completion Logs:
         for name, periodicity in predefined_habits:
             habit_id = habit_id_tests[(name, periodicity)]
-
-            if periodicity == "daily":
-                for d in daily_dates:
-                    cursor.execute("""
-                        INSERT INTO completion_logs (habit_id, completed_at)
-                        VALUES (?, ?);
-                    """, (habit_id, d.strftime("%Y-%m-%d %H:%M:%S")))
-
-            elif periodicity == "weekly":
-                for w in weekly_dates:
-                    cursor.execute("""
-                        INSERT INTO completion_logs (habit_id, completed_at)
-                        VALUES (?, ?);
-                    """, (habit_id, w.strftime("%Y-%m-%d %H:%M:%S")))
+            
+            cursor.execute("""
+                INSERT INTO Completion_Logs_Test_Fix (habit_id, completed_at)
+                VALUES (?, ?);
+            """, (habit_id, d.strftime("%Y-%m-%d %H:%M:%S")))
 
         conn.commit()
 
