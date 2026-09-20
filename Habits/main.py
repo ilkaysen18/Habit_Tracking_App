@@ -83,7 +83,7 @@ def fetch_test_fixture_environment(TEST_DB_NAME: str):
 
         cursor.execute("""
             SELECT habit_id, habit_name, periodicity, created_at, edited_at
-            FROM habits;
+            FROM Predefined_Habits_Test_Fix;
         """)
         for row in cursor.fetchall():
             habits_cache.append(Habit(
@@ -94,16 +94,23 @@ def fetch_test_fixture_environment(TEST_DB_NAME: str):
                 edited_at=datetime.strptime(row[4], "%Y-%m-%d %H:%M:%S")
             ))
 
-        cursor.execute("SELECT log_id, habit_id, completed_at FROM completion_logs;")
+        cursor.execute("""
+            SELECT log_id, habit_id, completed_at
+            FROM Completion_Logs_Test_Fix;
+        """)
         for row in cursor.fetchall():
+            completed_at = row[2]
+            # Since NULL/NONE was added for Broken Habits:
+            if completed_at is None:
+                continue
+
             logs_cache.append(CompletionLog(
                 log_id=row[0],
                 habit_id=row[1],
-                completed_at=datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S")
+                completed_at=datetime.strptime(completed_at, "%Y-%m-%d %H:%M:%S")
             ))
 
     return habits_cache, logs_cache
-
 
 
 """The User Flow of the CLI is as follows:"""
@@ -484,7 +491,8 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
 
         choice = input("\nSelect analytics option (1-5): ").strip()
 
-        Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix = fetch_test_fixture_environment(test_fixture_db)
+        Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix = \
+            fetch_test_fixture_environment(TEST_DB_NAME)
 
         if choice == "1":
             all_h = list_all_habits(habits)
@@ -509,7 +517,10 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                         print(f" • {h.habit_name}")
 
         elif choice == "3":
-            top_habit, top_run = initialize_test_tables(Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix)
+            top_habit, top_run = get_longest_streak_all(
+                Predefined_Habits_Test_Fix,
+                Completion_Logs_Test_Fix
+            )
             if not top_habit:
                 print("❌ No streak data available.")
             else:
