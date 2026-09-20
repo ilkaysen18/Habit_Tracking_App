@@ -19,7 +19,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         cursor = conn.cursor()
 
         """
-        HABITS TABLE for the Five Predefined Habits below.
+        HABITS TABLE for the Five Predefined Habits below:
         DATETIME selected for created_at and edited_at. Ran a SyntaxError
         (for leading zeros in decimal integer literals).
         So changed it to STRING instead, for the dummy_data only.
