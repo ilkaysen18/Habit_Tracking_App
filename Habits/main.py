@@ -70,7 +70,7 @@ def fetch_active_environment():
     return habits_cache, logs_cache
 
 
-def fetch_test_fixture_environment(TEST_DB_NAME: str):
+def fetch_test_fixture_environment_option_b(TEST_DB_NAME: str):
     """A loader for the Testing Database environment."""
     habits_cache = []
     logs_cache = []
@@ -492,7 +492,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
         choice = input("\nSelect analytics option (1-5): ").strip()
 
         Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix = \
-            fetch_test_fixture_environment(TEST_DB_NAME)
+            fetch_test_fixture_environment_option_b(TEST_DB_NAME)
 
         if choice == "1":
             all_h = list_all_habits(Predefined_Habits_Test_Fix)
