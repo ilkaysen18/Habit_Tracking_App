@@ -27,7 +27,7 @@ from modules.analytics import (
 
 
 def get_test_connection(db_name: str = "test_fixture_db"):
-    return sqlite3.connect(test_fixture_db)
+    return sqlite3.connect(TEST_DB_NAME)
 
 
 def initialize_test_tables(test_fixture_db):
