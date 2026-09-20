@@ -11,9 +11,9 @@ import sqlite3
 
 
 
-def initialize_test_tables(db_name: str = "test_fixture.db"):
+def initialize_test_tables(db_name: str = "test_fixture_db"):
 
-    with sqlite3.connect(db_name) as conn:
+    with sqlite3.connect(test_fixture_db) as conn:
         cursor = conn.cursor()
 
         """HABITS TABLE for the Five Predefined Habits."""
