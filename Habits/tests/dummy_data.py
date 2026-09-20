@@ -24,6 +24,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS Predefined_Habits_Test_Fix (
+                habit_id INTEGER NOT NULL,
                 habit_name STRING NOT NULL,
                 periodicity STRING NOT NULL,
                 created_at STRING,
@@ -54,7 +55,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         ]
 
         cursor.executemany("""
-            INSERT INTO Predefined_Habits_Test_Fix (habit_name, periodicity, created_at, edited_at)
+            INSERT INTO Predefined_Habits_Test_Fix (habit_id, habit_name, periodicity, created_at, edited_at)
             VALUES (?, ?, ?, ?);
         """, habits)
 
