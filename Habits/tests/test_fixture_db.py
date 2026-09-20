@@ -8,8 +8,9 @@ This is a separate DB for the Test Fixture of 4-Weeks Dummy Data for the 5 Prede
 
 # Imports SQLite3 for the DB.
 import sqlite3
-# Imports Habits, CompletionLogs, and Analytics from (the general) Models and Modules.
+# Imports DATETIME for the Data Types.
 from datetime import datetime, timedelta
+# Imports Habits, CompletionLogs, and Analytics from (the general) Models and Modules.
 from models.habit import Habit
 from models.completion_log import CompletionLog
 from modules.analytics import (
