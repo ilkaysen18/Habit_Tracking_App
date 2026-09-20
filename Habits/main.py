@@ -24,8 +24,8 @@ from modules.analytics import (
     get_longest_streak_one,
     get_longest_streak_all
 )
-from tests.test_fixture_db import initialize_test_tables
-from tests.dummy_data import initialize_test_tables
+from tests.test_fixture_db import initialize_test_tables as initialize_test_schema
+from tests.dummy_data import initialize_test_tables as initialize_test_data
 
 
 
@@ -588,6 +588,7 @@ def main():
             run_test_fixture_4_weeks()
         elif choice == "7":
             TEST_DB_NAME = "test_fixture.db"
+            initialize_test_schema(TEST_DB_NAME)
             run_test_fixture_analytics_dashboard(TEST_DB_NAME)
         else:
             print("❌ Input Error: Unrecognized instruction. Please choose options 1-7.")
