@@ -495,7 +495,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
             fetch_test_fixture_environment(TEST_DB_NAME)
 
         if choice == "1":
-            all_h = list_all_habits(habits)
+            all_h = list_all_habits(Predefined_Habits_Test_Fix)
             print("\n📋 TEST FIXTURE MASTER TRACKING REGISTRY:")
             for h in all_h:
                 print(f" • ID {h.habit_id}: {h.habit_name} ({h.periodicity})")
@@ -515,6 +515,8 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                 else:
                     for h in filtered:
                         print(f" • {h.habit_name}")
+            else:
+                print("❌ Invalid frequency input.")
 
         elif choice == "3":
             top_habit, top_run = get_longest_streak_all(
@@ -530,20 +532,25 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                 )
 
         elif choice == "4":
-            if not habits:
+            if not Predefined_Habits_Test_Fix:
                 print("❌ No rows available to verify.")
                 continue
 
-            for idx, h in enumerate(habits):
+            for idx, h in enumerate(Predefined_Habits_Test_Fix):
                 print(f"{idx + 1}. {h.habit_name} [{h.periodicity}]")
 
             try:
                 sel = int(input("\nSelect habit index code: ")) - 1
-                if sel < 0 or sel >= len(habits):
+                if sel < 0 or sel >= len(Predefined_Habits_Test_Fix):
                     raise IndexError
 
-                target = habits[sel]
-                streak = get_longest_streak_one(target.habit_id, logs, target.periodicity)
+                target = Predefined_Habits_Test_Fix[sel]
+                streak = get_longest_streak_one(
+                    target.habit_id,
+                    Completion_Logs_Test_Fix,
+                    target.periodicity
+                )
+
                 print(f"\n🎯 The Longest Test Streak for '{target.habit_name}': {streak} periods.")
 
             except (ValueError, IndexError):
