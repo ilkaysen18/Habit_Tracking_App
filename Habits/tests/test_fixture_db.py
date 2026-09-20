@@ -14,18 +14,18 @@ import sqlite3
 # Definitions below.
 
 
-def get_test_connection(db_name: str = "test_fixture.db"):
-    return sqlite3.connect(db_name)
+def get_test_connection(db_name: str = "test_fixture_db"):
+    return sqlite3.connect(test_fixture_db)
 
 
-def initialize_test_tables(db_name: str = "test_fixture.db"):
+def initialize_test_tables(test_fixture_db):
 
-    with sqlite3.connect(db_name) as conn:
+    with sqlite3.connect(test_fixture_db) as conn:
         cursor = conn.cursor()
 
         # Habits Table for the Test Fixtures.
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS habits (
+            CREATE TABLE IF NOT EXISTS Predefined_Habits_Test_Fix (
                 habit_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_name STRING NOT NULL,
                 periodicity STRING NOT NULL,
@@ -36,7 +36,7 @@ def initialize_test_tables(db_name: str = "test_fixture.db"):
 
         # Completion Logs Table for the Test Fixtures.
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS completion_logs (
+            CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 completed_at DATETIME NOT NULL,
