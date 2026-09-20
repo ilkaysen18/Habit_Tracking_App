@@ -52,7 +52,7 @@ def initialize_test_tables(test_fixture_db):
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 completed_at DATETIME NOT NULL,
-                FOREIGN KEY (habit_id) REFERENCES habits(habit_id)
+                FOREIGN KEY (habit_id) REFERENCES Predefined_Habits_Test_Fix(habit_id)
             );
         """)
 
