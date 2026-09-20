@@ -34,8 +34,10 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
+                log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
-                completed_at STRING
+                completed_at STRING,
+                FOREIGN KEY (habit_id) REFERENCES Predefined_Habits_Test_Fix(habit_id)
             );
         """)
 
@@ -45,7 +47,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         conn.commit()
 
         """HABITS TABLE for the Five Predefined Habits."""
-        now_created = "19.07.26 07:00:00"
+        now_created = "19-07-26 07:00:00"
         habits = [
             ("Drink 2L water", "daily",   "19-07-26 07:08:05", None),
             ("Go to the gym",   "daily",   "19-07-26 07:09:42", None),
@@ -55,7 +57,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         ]
 
         cursor.executemany("""
-            INSERT INTO Predefined_Habits_Test_Fix (habit_id, habit_name, periodicity, created_at, edited_at)
+            INSERT INTO Predefined_Habits_Test_Fix (habit_name, periodicity, created_at, edited_at)
             VALUES (?, ?, ?, ?);
         """, habits)
 
