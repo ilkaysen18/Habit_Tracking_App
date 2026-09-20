@@ -55,7 +55,7 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     # 1. Clean Data Pipeline - Extracts specific sorted dates:
     sorted_dates = sorted(list(set([dt.date() for dt in logs])))
 
-    # Defines the maximum gap Delta Time bounds based on the periodicity:
+    # Defines the maximum gap based on periodicity:
     if periodicity.lower() == "daily":
         max_gap = timedelta(days=1)
     elif periodicity.lower() == "biweekly":
@@ -65,7 +65,7 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     else:
         max_gap = timedelta(days=14)
 
-    # 2. Recursive connection (Loops) to other Constraints:
+    # 2. Recursive "Streak" Calculation:
     def accumulate_streaks(dates_list, current_streak, max_streak):
         if len(dates_list) <= 1:
             return max(max_streak, current_streak)
@@ -74,11 +74,23 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
         gap = dates_list[1] - dates_list[0]
 
         if gap <= max_gap:
+            # The "streak" continues:
+            new_current = current_streak + 1
+
             # If the habit/task completion "streak" is held:
-            return accumulate_streaks(dates_list[1:], new_current, max(max_streak, new_current))
-        elif gap > max_gap:
-            #If the habit/task completion "streak" is broken:
-            return accumulate_streaks(dates_list[1:], 1, max_streak)
+            return accumulate_streaks
+                (dates_list[1:],
+                new_current,
+                max(max_streak, new_current)
+            )
+
+        else:
+            #If the habit/task completion "streak" is broken, starts a new "streak":
+            return accumulate_streaks(
+                dates_list[1:],
+                1,
+                max_streak
+            )
     
     # Returns the defined function:
     return accumulate_streaks(sorted_dates, 1, 1)
