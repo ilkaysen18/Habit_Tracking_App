@@ -484,7 +484,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
 
         choice = input("\nSelect analytics option (1-5): ").strip()
 
-        habits, logs = fetch_test_fixture_environment(test_fixture_db)
+        Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix = fetch_test_fixture_environment(test_fixture_db)
 
         if choice == "1":
             all_h = list_all_habits(habits)
