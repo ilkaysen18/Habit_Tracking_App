@@ -30,7 +30,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
                 created_at STRING,
                 edited_at STRING
             );
-        )
+        , )
 
         cursor.execute(
             CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
@@ -39,7 +39,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
                 completed_at STRING,
                 FOREIGN KEY (habit_id) REFERENCES Predefined_Habits_Test_Fix(habit_id)
             );
-        )
+        , )
 
         # Reset:
         cursor.execute("DELETE FROM Completion_Logs_Test_Fix;")
