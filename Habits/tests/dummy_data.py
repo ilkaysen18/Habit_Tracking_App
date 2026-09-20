@@ -22,7 +22,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
     with sqlite3.connect(db_name) as conn:
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
             CREATE TABLE IF NOT EXISTS Predefined_Habits_Test_Fix (
                 habit_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_name STRING NOT NULL,
@@ -30,16 +30,16 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
                 created_at STRING,
                 edited_at STRING
             );
-        """)
+        )
 
-        cursor.execute("""
+        cursor.execute(
             CREATE TABLE IF NOT EXISTS Completion_Logs_Test_Fix (
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 habit_id INTEGER NOT NULL,
                 completed_at STRING,
                 FOREIGN KEY (habit_id) REFERENCES Predefined_Habits_Test_Fix(habit_id)
             );
-        """)
+        )
 
         # Reset:
         cursor.execute("DELETE FROM Completion_Logs_Test_Fix;")
@@ -56,10 +56,10 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
             ("Submit weekly timesheet", "weekly", "19-07-26 08:17:28", None),
         ]
 
-        cursor.executemany("""
+        cursor.executemany(
             INSERT INTO Predefined_Habits_Test_Fix (habit_name, periodicity, created_at, edited_at)
             VALUES (?, ?, ?, ?);
-        """, habits)
+        , habits)
 
         """4 Weeks COMPLETION LOGS TABLE for Five Predefined Habits."""
         # completed_at for Broken Habits is left as NONE in Python for SQL's NULL.
@@ -158,10 +158,11 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
             (5, "07-08-26 22:43:13"),
             (5, "14-08-26 22:35:41"),
         ]
-        cursor.executemany("""
+
+        cursor.executemany(
             INSERT INTO Completion_Logs_Test_Fix (habit_id, completed_at)
             VALUES (?, ?);
-        """, completion_rows)
+        , completion_rows)
 
         # Must commit to finalize above details.
         conn.commit()
