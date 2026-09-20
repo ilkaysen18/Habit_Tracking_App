@@ -18,13 +18,14 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
     with sqlite3.connect(test_fixture_db) as conn:
         cursor = conn.cursor()
 
-        """HABITS TABLE for the Five Predefined Habits."""
+        """
+        HABITS TABLE for the Five Predefined Habits below.
+        DATETIME selected for created_at and edited_at. Ran a SyntaxError
+        (for leading zeros in decimal integer literals).
+        So changed it to STRING instead, for the dummy_data only.
+        """
+
         cursor.execute(
-            """
-            DATETIME selected for created_at and edited_at.
-            Ran a SyntaxError (for leading zeros in decimal integer literals).
-            So changed it to STRING instead, for the dummy_data only.
-            """
             CREATE TABLE Predefined_Habits_Test_Fix (habit_name STRING, periodicity STRING, created_at STRING, edited_at STRING)(
                 ['Drink 2L water', 'daily', '19.07.26 07:08', NULL],
                 ['Go to the gym', 'daily', '19.07.26 07:09', NULL],
