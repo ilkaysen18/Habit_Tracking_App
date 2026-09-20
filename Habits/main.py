@@ -460,11 +460,17 @@ def run_test_fixture_4_weeks() -> None:
         # Inserts into Test Completion Logs:
         for name, periodicity in predefined_habits:
             habit_id = habit_id_tests[(name, periodicity)]
-            
-            cursor.execute("""
-                INSERT INTO Completion_Logs_Test_Fix (habit_id, completed_at)
-                VALUES (?, ?);
-            """, (habit_id, d.strftime("%Y-%m-%d %H:%M:%S")))
+
+            dates_to_insert = (
+                daily_dates if periodicity == "daily"
+                else weekly_dates
+            )
+
+            for d in dates_to_insert:
+                cursor.execute("""
+                    INSERT INTO Completion_Logs_Test_Fix (habit_id, completed_at)
+                    VALUES (?, ?);
+                """, (habit_id, d.strftime("%Y-%m-%d %H:%M:%S")))
 
         conn.commit()
 
