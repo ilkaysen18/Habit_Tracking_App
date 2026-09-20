@@ -8,6 +8,8 @@ This file includes the Dummy Data Tables for the Test Fixtures, using SQLite3.
 
 # Imports SQLite3 for the Dummy Data Tables.
 import sqlite3
+# Imports DATETIME for the Data Types.
+from datetime import datetime, timedelta
 
 
 
@@ -18,6 +20,7 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
 
         """HABITS TABLE for the Five Predefined Habits."""
         cursor.execute(
+            # DATETIME selected for created_at and edited_at, but ran an error
             CREATE TABLE Predefined_Habits_Test_Fix (habit_name STRING, periodicity STRING, created_at DATETIME, edited_at DATETIME)(
                 ['Drink 2L water', 'daily', 19.07.26 07:08, NULL],
                 ['Go to the gym', 'daily', 19.07.26 07:09, NULL],
