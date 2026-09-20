@@ -24,6 +24,8 @@ from modules.analytics import (
     get_longest_streak_one,
     get_longest_streak_all
 )
+from tests.test_fixture_db import initialize_test_tables
+from tests.dummy_data import initialize_test_tables
 
 
 
@@ -482,7 +484,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
 
         choice = input("\nSelect analytics option (1-5): ").strip()
 
-        habits, logs = fetch_test_fixture_environment(TEST_DB_NAME)
+        habits, logs = fetch_test_fixture_environment(test_fixture_db)
 
         if choice == "1":
             all_h = list_all_habits(habits)
@@ -507,7 +509,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                         print(f" • {h.habit_name}")
 
         elif choice == "3":
-            top_habit, top_run = get_longest_streak_all(habits, logs)
+            top_habit, top_run = initialize_test_tables(Predefined_Habits_Test_Fix, Completion_Logs_Test_Fix)
             if not top_habit:
                 print("❌ No streak data available.")
             else:
