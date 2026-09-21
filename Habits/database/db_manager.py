@@ -3,6 +3,11 @@ DATABASE & TEST FIXTURE - MANAGEMENT LIBRARY:
 
 This Module initializes the SQLite3 Relational Schema
 and automates the 4-Week Test Tracking data.
+
+PK = Primary Key.
+FK = Foreign Key.
+
+DDL = Data Definition Language.
 """
 
 
@@ -35,7 +40,7 @@ def initialize_tables() -> None:
             );
         """)
 
-        # 2. Establishes the "Completion Logs" Table Schema - Connects Relational FK:
+        # 2. Establishes the "Completion Logs" Table Schema - Connects to Relational FK:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS completion_logs (
                 log_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +54,7 @@ def initialize_tables() -> None:
 
 
 def seed_predefined_fixtures() -> None:
-    """Ensures the 5 Predefined Habits exist in the DB (no early return)."""
+    """Ensures the 5 Predefined Habits exist in the DB (with no early return)."""
 
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -68,7 +73,7 @@ def seed_predefined_fixtures() -> None:
         start_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
 
         for name, periodicity in predefined_habits:
-            # Check if this predefined habit already exists
+            # Checks if this predefined habit already exists:
             cursor.execute("""
                 SELECT habit_id
                 FROM habits
@@ -79,9 +84,9 @@ def seed_predefined_fixtures() -> None:
 
             existing = cursor.fetchone()
             if existing is not None:
-                continue  # already exists; do not insert again
+                continue  # If it already exists; ensures it doesn't insert the same habit again.
 
-            # Insert missing habit
+            # Inserts missing habit:
             cursor.execute("""
                 INSERT INTO habits (habit_name, periodicity, created_at, edited_at)
                 VALUES (?, ?, ?, ?);
