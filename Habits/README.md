@@ -14,7 +14,7 @@
    
    * **OR:** Drag and drop the downloaded, main _Habits_ file to the Shell (make sure to extract the whole file from the zip folder first).
 
-   * Make sure to include quotation marks before and after the file name (_"file-name"_).
+   * Be sure to include quotation marks before and after the file name (_"file-name"_).
 
    * Hit Enter.
 
