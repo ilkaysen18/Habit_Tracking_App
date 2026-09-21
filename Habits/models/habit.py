@@ -54,9 +54,9 @@ class Habit:
         return False
 
     def delete(self) -> bool:
-        """Tracks individual habit/task deletion instances."""
+        """Tracks individual habit/task Deletion instances."""
         return True
 
     def complete(self) -> bool:
-        """Tracks individual habit/task completion instances."""
+        """Tracks individual habit/task Completion instances."""
         return True
