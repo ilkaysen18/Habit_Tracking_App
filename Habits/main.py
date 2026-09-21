@@ -607,9 +607,9 @@ def main():
         print("1. Create a New Custom Habit Track")
         print("2. Mark a Habit Task as Completed")
         print("3. Open Functional Analytics Dashboard")
-        print("4. Edit an Existing Habit (Name / Periodicity)")
+        print("4. Edit an Existing Habit by Name or Periodicity)")
         print("5. Terminate State Machine & Exit")
-        print("6. Test Fixture (4-Weeks Dummy Data)")
+        print("6. Test Fixture for 4-Weeks Dummy Data (NOTE: must select this before option number seven!)")
         print("7. Analytics Dashboard for Test Fixture")
 
         choice = input("\nSelect option coordinate (1-7): ").strip()
