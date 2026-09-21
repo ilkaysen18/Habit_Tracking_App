@@ -536,7 +536,7 @@ the 2 separate dashboards ensure that the Test Fixture Analytics contains
 separate Completion Records, based on its relevant Dummy Data (SQL table rows).
 """
 
-def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
+def run_test_fixture_analytics_dashboard(TEST_FIX_DB: str):
     while True:
         print("\n=== 📊 FUNCTIONAL ANALYTICS DASHBOARD (TEST FIXTURE) ===")
         print("1. List All Currently Tracked Habits")
@@ -670,9 +670,9 @@ def main():
         elif choice == "6":
             run_test_fixture_4_weeks()
         elif choice == "7":
-            TEST_DB_NAME = "test_fixture.db"
-            initialize_test_schema(TEST_DB_NAME)
-            run_test_fixture_analytics_dashboard(TEST_DB_NAME)
+            TEST_FIX_DB = "test_fixture.db"
+            initialize_test_schema(TEST_FIX_DB)
+            run_test_fixture_analytics_dashboard(TEST_FIX_DB)
         else:
             print("❌ Input Error: Unrecognized instruction. Please choose options 1-7.")
 
