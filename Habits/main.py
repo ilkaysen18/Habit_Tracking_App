@@ -439,9 +439,7 @@ def run_test_fixture_4_weeks() -> None:
     ]
 
     # 4-Weeks Dummy Data:
-    # Lists the Completed habits along with their Completion dates,
-    # based on the Dummy data Completion dates.
-    now = datetime.str()
+    now = datetime.now()
 
     # "Full" 28-day daily habits sequence:
     all_daily_dates = [
