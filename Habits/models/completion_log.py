@@ -1,6 +1,6 @@
 """
 "COMPLETION LOG" CLASS - MODEL PACKAGE:
-This Module defines the tracking timestamps regarding user habit completion and broken habits.
+This Module defines the tracking timestamps for user habit completions and broken habits.
 """
 
 
@@ -31,5 +31,5 @@ class CompletionLog:
         self.broken_at = broken_at
 
     def create_log(self, habit_id: int) -> None:
-        """Stub method (connects to database later)."""
+        """Stub method (which connects to DB later)."""
         pass
