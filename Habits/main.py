@@ -419,11 +419,37 @@ def run_test_fixture_4_weeks() -> None:
     # 4-Weeks Dummy Data:
     now = datetime.now()
 
-    # 28 days for daily habits:
-    daily_dates = [now - timedelta(days=i) for i in range(27, -1, -1)]
+    # "Full" 28-day daily habits sequence:
+    all_daily_dates = [
+        now - timedelta(days=i)
+        for i in range(27, -1, -1)]
+
+    # "Gapped" 28-day daily habits sequence:
+    # Based on completed habits vs broken habits - this tests Streak Analytics:
+
+    daily_habit_dates = {
+
+        "Drink 2L water": [
+            d for i, d in enumerate(all_daily_dates)
+            if i not in {5, 6, 15} # Example gaps for days habits broken.
+        ],
+
+        "Go to the gym": [
+            d for i, d in enumerate(all_daily_dates)
+            if i not in {8, 9, 18, 19} # Example gaps for days habits broken.
+        ],
+
+        "Read 10 pages": [
+            d for i, d in enumerate(all_daily_dates)
+            if i not in {3, 12, 13, 22} # Example gaps for days habits broken.
+        ],
+    }
 
     # 4 weeks for weekly habits:
-    weekly_dates = [now - timedelta(weeks=i) for i in range(3, -1, -1)]
+    weekly_dates = [
+        now - timedelta(weeks=i)
+        for i in range(3, -1, -1)
+    ]
 
     # Imports Test Fixture Database (DB) - which is a separate DB specifically for the Test Fixture:
     from tests.test_fixture_db import (
@@ -461,10 +487,10 @@ def run_test_fixture_4_weeks() -> None:
         for name, periodicity in predefined_habits:
             habit_id = habit_id_tests[(name, periodicity)]
 
-            dates_to_insert = (
-                daily_dates if periodicity == "daily"
-                else weekly_dates
-            )
+        if periodicity == "daily":
+            dates_to_insert = daily_habit_dates[name]
+        else:
+            dates_to_insert = weekly_dates
 
             for d in dates_to_insert:
                 cursor.execute("""
