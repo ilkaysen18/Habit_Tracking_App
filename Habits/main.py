@@ -487,10 +487,10 @@ def run_test_fixture_4_weeks() -> None:
         for name, periodicity in predefined_habits:
             habit_id = habit_id_tests[(name, periodicity)]
 
-        if periodicity == "daily":
-            dates_to_insert = daily_habit_dates[name]
-        else:
-            dates_to_insert = weekly_dates
+            if periodicity == "daily":
+                dates_to_insert = daily_habit_dates[name]
+            else:
+                dates_to_insert = weekly_dates
 
             for d in dates_to_insert:
                 cursor.execute("""
@@ -541,8 +541,7 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                 print("❌ Invalid frequency input.")
 
         elif choice == "3":
-            print(f"\nDEBUG: Selected habit ID = {target.habit_id}") # Temporary. .....
-            print(f"DEBUG: Total logs loaded = {len(Completion_Logs_Test_Fix)}")
+            print(f"DEBUG: Total logs loaded = {len(Completion_Logs_Test_Fix)}") # Temporary. .....
 
             for log in Completion_Logs_Test_Fix:
                 print(
