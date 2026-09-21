@@ -12,7 +12,7 @@
 
    <img width="513" height="20" alt="image" src="https://github.com/user-attachments/assets/de8409c4-c6dd-4732-b794-82236490891c" /> (Be sure to include your own user name instead of _ilkay_).
    
-   * Or drag and drop the downloaded, main _Habits_ file to the Shell (make sure to extract the whole file from the zip folder first).
+   * **Or** drag and drop the downloaded, main _Habits_ file to the Shell (make sure to extract the whole file from the zip folder first).
 
    * Make sure to include quotation marks before and after the file name (_"file-name"_).
 
