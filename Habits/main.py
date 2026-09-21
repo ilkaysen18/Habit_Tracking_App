@@ -91,11 +91,12 @@ def fetch_test_fixture_environment_option_b(TEST_FIX_DB: str):
     with get_test_connection(TEST_FIX_DB) as conn: 
         cursor = conn.cursor()
 
+        # Fetches the 5 predefined habits for Test Fixture:
         cursor.execute("""
             SELECT habit_id, habit_name, periodicity, created_at, edited_at
-            FROM Predefined_Habits_Test_Fix; # Fetches the 5 predefined habits for Test Fixture.
+            FROM Predefined_Habits_Test_Fix
         """)
-        for row in cursor.fetchall(): # Fetching the Data Tables for the Test Fixture.
+        for row in cursor.fetchall(): 
             habits_cache.append(Habit(
                 habit_id=row[0],
                 habit_name=row[1],
