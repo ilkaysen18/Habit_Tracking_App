@@ -541,6 +541,16 @@ def run_test_fixture_analytics_dashboard(TEST_DB_NAME: str):
                 print("❌ Invalid frequency input.")
 
         elif choice == "3":
+            print(f"\nDEBUG: Selected habit ID = {target.habit_id}") # Temporary. .....
+            print(f"DEBUG: Total logs loaded = {len(Completion_Logs_Test_Fix)}")
+
+            for log in Completion_Logs_Test_Fix:
+                print(
+                    f"DEBUG: log_id={log.log_id}, "
+                    f"habit_id={log.habit_id}, "
+                    f"completed_at={log.completed_at}"
+                ) # ..... Temporary.
+
             top_habit, top_run = get_longest_streak_all(
                 Predefined_Habits_Test_Fix,
                 Completion_Logs_Test_Fix
