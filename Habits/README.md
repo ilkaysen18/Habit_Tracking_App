@@ -18,10 +18,12 @@
 
    * Hit Enter
 
-6. Next, type the following:
+5. Next, type the following:
 
    <img width="122" height="18" alt="image" src="https://github.com/user-attachments/assets/cea828fb-2a3e-4c9e-be2e-58feb75b0ea5" />
 
    * Hit Enter
+  
+   * The CLI interactive Menu will be displayed in the shell.
 
 ------------------------------------------------------------------------
