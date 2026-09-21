@@ -66,12 +66,12 @@ def initialize_test_tables(db_name: str = "test_fixture_db"):
         completion_rows = [
             (1, "19-07-26 12:56:40"), # First Predefined Habit.
             (1, "20-07-26 16:21:34"),
-            (1, None),
-            (1, None),
+            (None, None),
+            (None, None),
             (1, "23-07-26 16:02:54"),
             (1, "24-07-26 18:42:57"),
             (1, "25-07-26 17:30:24"),
-            (1, None),
+            (None, None),
             (1, "27-07-26 15:55:23"),
             (1, "28-07-26 14:38:42"),
             (1, "28-07-26 14:43:55"),
