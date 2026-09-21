@@ -1,5 +1,5 @@
 """
-TEST FIXTURE DATABASE (DB): 
+TEST FIXTURE DATABASE (DB):
 
 This is a separate DB for the Test Fixture of 4-Weeks Dummy Data for the 5 Predefined Habits.
 """
