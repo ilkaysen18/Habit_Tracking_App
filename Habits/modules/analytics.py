@@ -1,7 +1,7 @@
 """
 "ANALYTICS MODULE" CLASS:
 
-Functional Promramming Analytics Suite Module:
+Functional Programming Analytics Suite Module:
 This Library utilizes functions for habits and logs, by handling the following:
 - data transformations,
 - subsetting pipelines,
@@ -30,7 +30,7 @@ def list_all_habits(habits: list) -> list:
 
 def filter_by_periodicity(habits: list, periodicity: str) -> list:
     """
-    This subsets specific Habit collections - in this case, filtering by periodicity. 
+    This subsets the specific Habit collections - in this case, filtering by periodicity. 
     Args:
         habits (list): A list of current Habit records in the system.
         periodicity (str): The target Time Delta, filtering by frequency (e.g. 'daily', 'weekly', etc.).
@@ -38,6 +38,7 @@ def filter_by_periodicity(habits: list, periodicity: str) -> list:
         list: A filtered subset of habits that match the Threshold Bounds.
     """
     return [h for h in habits if h.periodicity.lower() == periodicity.lower()]
+    # Converts/Standardizes the periodicity strings to lowercase. e.g. daily, weekly, etc. 
 
 
 def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
@@ -52,10 +53,19 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     if not logs:
         return 0
 
-    # 1. Clean Data Pipeline - Extracts specific sorted dates:
+    """
+    1. A clean data pipeline does the following:
+    - Extracts / filters out duplicate data entries; and
+    - Sequences Completion dates & time (chronologically, for Calculation of Completion Streaks).
+    """
     sorted_dates = sorted(list(set([dt.date() for dt in logs])))
 
-    # Defines the maximum gap based on periodicity:
+    """
+    The following if/elif/else Statements define the maximum gap (broken habits), based on periodicity.
+    Note:
+    - 'biweekly' is considered as occurring twice a week here (normalized to 3 days each);
+    - with 'fortnightly' occurring every two weeks (standardized to 14 days).
+    """
     if periodicity.lower() == "daily":
         max_gap = timedelta(days=1)
     elif periodicity.lower() == "biweekly":
@@ -65,19 +75,22 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
     else:
         max_gap = timedelta(days=14)
 
-    # 2. Recursive "Streak" Calculation:
+    """2. Recursive Streak Calculation: (recursively) loops through completion dates; and counts CONTINUOUS Streaks."""
     def accumulate_streaks(dates_list, current_streak, max_streak):
         if len(dates_list) <= 1:
             return max(max_streak, current_streak)
+            # LEN safely stops the recursion/loop.
+            # Returns max_streak (historical streak) and current streak (the new longest streak).
         
-        # Measures chronological distance between neighboring habit/task completions:
+        # Measures chronological distance between (neighboring) habit/task completions:
         gap = dates_list[1] - dates_list[0]
 
         if gap <= max_gap:
-            # The "streak" continues:
+            # The Streak continues:
             new_current = current_streak + 1
+            # Adds 1 period (from periodicity) to the new_streak.
 
-            # If the habit/task completion "streak" is held:
+            # If the habit/task completion streak is held:
             return accumulate_streaks(
                 dates_list[1:],
                 new_current,
@@ -85,7 +98,7 @@ def calculate_streak_for_single_habit(logs: list, periodicity: str) -> int:
             )
 
         else:
-            #If the habit/task completion "streak" is broken, starts a new "streak":
+            # If the habit/task completion-streak is broken, starts a new-streak:
             return accumulate_streaks(
                 dates_list[1:],
                 1,
@@ -101,10 +114,10 @@ def get_longest_streak_one(habit_id: int, all_logs: list, periodicity: str) -> i
     Computes the maximum historic completion streak achieved by user, for a specific habit.
     Args:
        habit_id (int): FK - Relational Foreign Key that connects matching target habit fields.
-       all_logs (list): The unfiltered list of all completion logs.
+       all_logs (list): The (unfiltered) list of all completion logs.
        periodicity (str): Frequency.
     Returns:
-        int: The longest "streak" of habit/task completion for the specific habit.
+        int: The longest-streak of habit/task completion for the specific habit.
     """
 
     # Functional Filter Pipeline: This extracts the relevant Child Logs that match the Parent ID strings:
@@ -127,7 +140,7 @@ def get_longest_streak_all(habits: list, all_logs: list):
     for h in habits:
         s = get_longest_streak_one(h.habit_id, all_logs, h.periodicity)
 
-        # if your get_longest_streak_one returns None sometimes, guard it:
+        # IF get_longest_streak_one returns None (null) sometimes, keeps the None:
         if s is None:
             continue
 
